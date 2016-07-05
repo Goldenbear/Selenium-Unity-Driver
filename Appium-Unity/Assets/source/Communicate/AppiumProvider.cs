@@ -1,4 +1,4 @@
-﻿//////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////
 /// @file	AppiumProvider.cs
 ///
 /// @author
@@ -27,127 +27,128 @@ using Debug = UnityEngine.Debug;
 /************************** THE SCRIPT CLASS ****************************/
 
 //////////////////////////////////////////////////////////////////////////
-/// @brief	AppiumProvider class.
+/// @brief	AppiumProvider class.  Creates a threaded HttpListener to 
+/// respond to requests to provide Unity GamObject data.  Was originally 
+/// a lighter-weight TCP socket listener, but a Unity bug cause it to be 
+/// redesigned:
+/// 
+/// See: https://issuetracker.unity3d.com/issues/debug-running-project-with-attached-debugger-causes-socket-exception-if-socket-is-in-another-thread
+/// 
+/// Supported endpoints:
+/// /api/guids - returns a JSON formatted list of all appium objects with
+///              a guid.
+///            
 //////////////////////////////////////////////////////////////////////////
 public class AppiumProvider : MonoBehaviour
 {
-	/*****************************S* CONSTANTS *******************************/
+	/****************************** CONSTANTS *******************************/
 	
 	/***************************** SUB-CLASSES ******************************/
 	
 	/***************************** GLOBAL DATA ******************************/
     
     // Thread signal.
-    public static ManualResetEvent tcpClientConnected = new ManualResetEvent(false);
+    private static ManualResetEvent g_httpClientConnected = new ManualResetEvent(false);
 
 	/**************************** GLOBAL METHODS ****************************/
 
     // Accept one client connection asynchronously.
-    public static void DoBeginAcceptTcpClient(TcpListener listener)
+    private static void DoBeginAcceptHttpClient(HttpListener listener)
     {
         // Set the event to nonsignaled state.
-        tcpClientConnected.Reset();
+        g_httpClientConnected.Reset();
 
         // Start to listen for connections from a client.
         Console.WriteLine("Waiting for a connection...");
 
         // Accept the connection. 
-        // BeginAcceptSocket() creates the accepted socket.
-        listener.BeginAcceptTcpClient(
-            new AsyncCallback(DoAcceptTcpClientCallback), 
-            listener);
+        IAsyncResult result = listener.BeginGetContext(
+            new AsyncCallback(DoAcceptHttpClientCallback), listener);
+
+        Debug.Log("Waiting for request to be processed asyncronously.");
 
         // Wait until a connection is made and processed before 
         // continuing.
-        tcpClientConnected.WaitOne();
+        g_httpClientConnected.WaitOne();
+
+        Debug.Log("Request processed asyncronously.");
     }
 
     // Process the client connection.
-    public static void DoAcceptTcpClientCallback(IAsyncResult ar) 
+    private static void DoAcceptHttpClientCallback(IAsyncResult ar) 
     {
         // Get the listener that handles the client request.
-        TcpListener listener = (TcpListener) ar.AsyncState;
+        HttpListener listener = (HttpListener) ar.AsyncState;
 
-        // End the operation and display the received data on 
-        // the console.
-        TcpClient client = listener.EndAcceptTcpClient(ar);
+        // Call EndGetContext to complete the asynchronous operation.
+        HttpListenerContext context = listener.EndGetContext(ar);
 
-        // Process the connection here. (Add the client to a
-        // server table, read data, etc.)
-        Console.WriteLine("Client connected completed");
+        // Obtain the request.
+        HttpListenerRequest request = context.Request;
+
+        // Obtain a response object.
+        HttpListenerResponse response = context.Response;
+
+        // Construct a response.
+        string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
+        byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+
+        // Get a response stream and write the response to it.
+        response.ContentLength64 = buffer.Length;
+        System.IO.Stream output = response.OutputStream;
+        output.Write(buffer,0,buffer.Length);
+
+        // You must close the output stream.
+        output.Close();
 
         // Signal the calling thread to continue.
-        tcpClientConnected.Set();
-
+        g_httpClientConnected.Set();
     }
 
-    public static void Run(string ip, int port)
+    // The main thread loop
+    private static void Run(string uri)
     {
-        TcpListener server = null;
+        if (!HttpListener.IsSupported)
+        {
+            throw new InvalidOperationException("The HttpListener class is unsupported!  I will not be able to provide Appium with data.");
+        }
+
+        HttpListener server = null;
         try
         {
+            string[] prefixes = { uri };    // TODO: Append endpoints
+
             // TcpListener server = new TcpListener(port);
-            server = new TcpListener(IPAddress.Parse(ip), port);
+            server = new HttpListener();
+
+            // Add the prefixes.
+            foreach (string s in prefixes)
+            {
+                server.Prefixes.Add(s);
+            }
 
             // Start listening for client requests.
-            server.Start();
+            server.Start();            
 
-            // Buffer for reading data
-            Byte[] bytes = new Byte[256];
-            String data = null;
-
-            // Enter the listening loop.
-            while (true)
+            while(true)
             {
-             //   Debug.Log("Waiting for a connection... ");
-
-                // Perform a blocking call to accept requests.
-                // You could also user server.AcceptSocket() here.
-                TcpClient client = server.AcceptTcpClient();
-              //  Debug.Log("Connected!");
-
-                data = null;
-
-                // Get a stream object for reading and writing
-                NetworkStream stream = client.GetStream();
-
-                int i;
-
-                // Loop to receive all the data sent by the client.
-                while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                {
-                    // Translate data bytes to a ASCII string.
-                    data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                    Debug.Log(String.Format("Received: {0}", data));
-
-                    // Process the data sent by the client.
-                    data = data.ToUpper();
-
-                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
-
-                    // Send back a response.
-                    stream.Write(msg, 0, msg.Length);
-                    Debug.Log(String.Format("Sent: {0}", data));
-                }
-
-                // Shutdown and end connection
-                client.Close();
+                DoBeginAcceptHttpClient(server);
             }
         }
-        catch (SocketException e)
+        catch (Exception e)
         {
-            Debug.Log(String.Format("SocketException: {0}", e));
+            Debug.Log(String.Format("Unknown Exception: {0}", e));
         }
         finally
         {
             // Stop listening for new clients.
+            server.Close();
             server.Stop();
         }
     }
 
     /***************************** PUBLIC DATA ******************************/
-    public string m_ip;
-    public Int32 m_port;
+    public string m_sUri;
 
 
 	/***************************** PRIVATE DATA *****************************/	
@@ -165,21 +166,16 @@ public class AppiumProvider : MonoBehaviour
 	//////////////////////////////////////////////////////////////////////////
 	private void Awake()
 	{
-        m_listenerThread = new Thread( () => Run(m_ip, m_port) );
+        m_listenerThread = new Thread( () => Run(m_sUri) );
 	}
+
+    
 
 	//////////////////////////////////////////////////////////////////////////
 	/// @brief	Everything is awake, script is about to start running.
 	//////////////////////////////////////////////////////////////////////////
 	private void Start()
 	{
-        if (!HttpListener.IsSupported)
-        {
-            Debug.Log ("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
-            return;
-        }
-
-        // See: https://issuetracker.unity3d.com/issues/debug-running-project-with-attached-debugger-causes-socket-exception-if-socket-is-in-another-thread
         m_listenerThread.Start();
 	}
 
@@ -190,4 +186,3 @@ public class AppiumProvider : MonoBehaviour
 	{
 	}
 }
-
