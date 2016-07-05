@@ -173,15 +173,14 @@ public class AppiumProvider : MonoBehaviour
 	//////////////////////////////////////////////////////////////////////////
 	private void Start()
 	{
-        if(false == Debugger.IsAttached)
+        if (!HttpListener.IsSupported)
         {
-            m_listenerThread.Start();
+            Debug.Log ("Windows XP SP2 or Server 2003 is required to use the HttpListener class.");
+            return;
         }
-        else
-            // See: https://issuetracker.unity3d.com/issues/debug-running-project-with-attached-debugger-causes-socket-exception-if-socket-is-in-another-thread
-        {
-            Run(m_ip, m_port);
-        }
+
+        // See: https://issuetracker.unity3d.com/issues/debug-running-project-with-attached-debugger-causes-socket-exception-if-socket-is-in-another-thread
+        m_listenerThread.Start();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
