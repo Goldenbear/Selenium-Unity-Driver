@@ -1,0 +1,3 @@
+[submodule "Appium-Driver"]
+	path = Appium-Driver
+	url = https://github.com/gopokyo-colinn/appium-dotnet-driver
