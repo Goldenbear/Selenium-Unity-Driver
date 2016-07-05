@@ -74,6 +74,7 @@
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ScrollDetailTexture.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ShowSliderValue.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\TiltWindow.cs" />
+    <Compile Include="Assets\source\Communicate\AppiumProvider.cs" />
     <Compile Include="Assets\source\UniqueId.cs" />
   </ItemGroup>
   <ItemGroup>
