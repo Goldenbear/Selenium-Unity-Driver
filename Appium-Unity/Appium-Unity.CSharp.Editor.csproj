@@ -5,16 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{33841F53-6951-9CFB-C867-F2720B1CB722}</ProjectGuid>
+    <ProjectGuid>{DE798862-5384-A764-2B6D-C378F28DED0B}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
-    <UnityProjectType>Game:1</UnityProjectType>
+    <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>5.3.5f1</UnityVersion>
     <RootNamespace></RootNamespace>
@@ -52,29 +52,56 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>Library\UnityAssemblies\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.EditorTestsRunner">
+      <HintPath>Library\UnityAssemblies\UnityEditor.EditorTestsRunner.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\UnityAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor">
-      <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
+    <Reference Include="UnityEditor.Networking">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.TreeEditor">
+      <HintPath>Library\UnityAssemblies\UnityEditor.TreeEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Graphs">
+      <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WebGL.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WebGL.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+      <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
+      <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\ActiveStateToggler.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\ApplicationManager.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\ChangeColor.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\DragMe.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\DragPanel.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\DropMe.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\PanelManager.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\ResizePanel.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\ScrollDetailTexture.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\ShowSliderValue.cs" />
-    <Compile Include="Assets\samples\unity_samples_ui\Scripts\TiltWindow.cs" />
-    <Compile Include="Assets\source\UniqueId.cs" />
+    <ProjectReference Include="Appium-Unity.CSharp.csproj">
+      <Project>{33841F53-6951-9CFB-C867-F2720B1CB722}</Project>
+      <Name>Appium-Unity.CSharp</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\samples\unity_samples_ui\Scripts\Editor\AlphaNumericSort.cs" />
+    <Compile Include="Assets\samples\unity_samples_ui\Scripts\Editor\GUIHierarchy.cs" />
+    <Compile Include="Assets\source\Editor\UniqueIdDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\samples\unity_samples_ui\Fonts\Jupiter\LICENSE.txt" />
