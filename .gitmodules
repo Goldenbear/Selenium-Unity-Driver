@@ -1,3 +1,9 @@
 [submodule "Appium-Driver"]
 	path = Appium-Driver
 	url = https://github.com/gopokyo-colinn/appium-dotnet-driver
+[submodule "Appium-HCP"]
+	path = Appium-HCP
+	url = https://github.com/gopokyo-colinn/appium-hcp
+[submodule "Appium-HCP-Driver"]
+	path = Appium-HCP-Driver
+	url = https://github.com/gopokyo-colinn/appium-hcp-driver
