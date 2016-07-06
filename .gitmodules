@@ -7,3 +7,6 @@
 [submodule "Appium-HCP-Driver"]
 	path = Appium-HCP-Driver
 	url = https://github.com/gopokyo-colinn/appium-hcp-driver
+[submodule "Appium-WindowsClient"]
+	path = Appium-WindowsClient
+	url = https://github.com/appium/appium-dot-exe
