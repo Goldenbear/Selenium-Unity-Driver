@@ -10,3 +10,6 @@
 [submodule "Appium-WindowsClient"]
 	path = Appium-WindowsClient
 	url = https://github.com/appium/appium-dot-exe
+[submodule "Appium"]
+	path = Appium
+	url = https://github.com/gopokyo-colinn/appium
