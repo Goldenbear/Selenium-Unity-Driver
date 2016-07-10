@@ -88,9 +88,15 @@ public class AppiumProvider : MonoBehaviour
 
         // Obtain a response object.
         HttpListenerResponse response = context.Response;
+        string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
+
+        if(request.RawUrl.StartsWith("/alive"))
+        {
+            // Construct a response.
+            responseString = "Appium-HCP Socket Server Ready";
+        }
 
         // Construct a response.
-        string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
         byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
 
         // Get a response stream and write the response to it.
@@ -116,7 +122,9 @@ public class AppiumProvider : MonoBehaviour
         HttpListener server = null;
         try
         {
-            string[] prefixes = { uri };    // TODO: Append endpoints
+            string[] prefixes = {
+                uri + "/alive/",
+                uri + "/find/" };    // TODO: Append endpoints
 
             // TcpListener server = new TcpListener(port);
             server = new HttpListener();

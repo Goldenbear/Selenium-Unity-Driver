@@ -41,6 +41,8 @@ namespace AppiumTests
             testCapabilities.FwkVersion = "1.0"; // Not really needed
             testCapabilities.Platform = TestCapabilities.DevicePlatform.Android; // Or IOS
             testCapabilities.PlatformVersion = String.Empty; // Not really needed
+            testCapabilities.SupportsHCP = true;
+            testCapabilities.HCPHost = "10.0.2.15";
 
             testCapabilities.AssignAppiumCapabilities(ref capabilities);
             driver = new AndroidDriver<AppiumWebElement>(testServerAddress, capabilities, INIT_TIMEOUT_SEC);

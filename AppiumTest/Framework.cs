@@ -28,6 +28,8 @@ namespace AppiumTest.Framework
         public string App { get; set; }
         public bool AutoWebView { get; set; }
         public string AutomationName { get; set; }
+        public bool SupportsHCP { get; set; }
+        public string HCPHost { get; set; }
 
         public TestCapabilities()
         {
@@ -39,6 +41,8 @@ namespace AppiumTest.Framework
             this.App = String.Empty;
             this.AutoWebView = true;
             this.AutomationName = String.Empty;
+            this.SupportsHCP = false;
+            this.HCPHost = "http:/127.0.0.1";
         }
 
         public void AssignAppiumCapabilities(ref DesiredCapabilities appiumCapabilities)
@@ -49,6 +53,8 @@ namespace AppiumTest.Framework
             appiumCapabilities.SetCapability("platformVersion", this.PlatformVersion);
             appiumCapabilities.SetCapability("deviceName", this.DeviceName);
             appiumCapabilities.SetCapability("autoWebview", this.AutoWebView);
+            appiumCapabilities.SetCapability("hcp", this.SupportsHCP);
+            appiumCapabilities.SetCapability("hcpHost", this.HCPHost);
 
             // App push (will be covered later)
             if (this.App != String.Empty)
