@@ -17,6 +17,8 @@ namespace AppiumTests
     using OpenQA.Selenium.Appium.MultiTouch; /* Not needed for commands shown here. It might be needed in single tests for automation */
     using OpenQA.Selenium.Interactions; /* Not needed for commands shown here. It might be needed in single tests for automation */
     using OpenQA.Selenium.Remote;
+    using System.Threading.Tasks;
+    using System.Threading;
 
     [TestClass]
     public class PMSmokeTestSuite
@@ -59,10 +61,14 @@ namespace AppiumTests
         /// Just a simple test to heck out Appium environment.
         /// </summary>
         [TestMethod]
-        public void CheckTestEnvironment()
+        public void  CheckTestEnvironment()
         {
             var context = driver.Context;
+
+            Thread.Sleep(1000*60);
+
             Assert.IsNotNull(context);
+
         }
     }
 }
