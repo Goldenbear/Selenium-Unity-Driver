@@ -13,3 +13,6 @@
 [submodule "Appium"]
 	path = Appium
 	url = https://github.com/gopokyo-colinn/appium
+[submodule "Appium-DotNet-Driver"]
+	path = Appium-DotNet-Driver
+	url = https://github.com/gopokyo-colinn/appium-dotnet-driver
