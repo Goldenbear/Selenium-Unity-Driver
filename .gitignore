@@ -4,3 +4,7 @@ Appium-Unity/.vs/Appium-Unity/v14/.suo
 Appium-Unity/.vs/config/applicationhost.config
 Appium-Unity/Temp/
 Appium-SampleTests/
+npm-debug.log
+AppiumTest/bin/
+AppiumTest/.vs/
+AppiumTest/obj/
