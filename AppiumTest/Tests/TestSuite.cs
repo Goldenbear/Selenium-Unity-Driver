@@ -42,7 +42,7 @@ namespace AppiumTests
             testCapabilities.Platform = TestCapabilities.DevicePlatform.Android; // Or IOS
             testCapabilities.PlatformVersion = String.Empty; // Not really needed
             testCapabilities.SupportsHCP = true;
-            testCapabilities.HCPHost = "10.0.2.15";
+            testCapabilities.HCPHost = "http://127.0.0.1";
 
             testCapabilities.AssignAppiumCapabilities(ref capabilities);
             driver = new AndroidDriver<AppiumWebElement>(testServerAddress, capabilities, INIT_TIMEOUT_SEC);
