@@ -12,6 +12,7 @@ namespace AppiumTests
     using AppiumTest.Framework;
     using OpenQA.Selenium; /* Appium is based on Selenium, we need to include it */
     using OpenQA.Selenium.Appium; /* This is Appium */
+    using OpenQA.Selenium.Appium.Android;
     using OpenQA.Selenium.Appium.Interfaces; /* Not needed for commands shown here. It might be needed in single tests for automation */
     using OpenQA.Selenium.Appium.MultiTouch; /* Not needed for commands shown here. It might be needed in single tests for automation */
     using OpenQA.Selenium.Interactions; /* Not needed for commands shown here. It might be needed in single tests for automation */
@@ -20,7 +21,7 @@ namespace AppiumTests
     [TestClass]
     public class PMSmokeTestSuite
     {
-        private AppiumDriver driver;
+        private AndroidDriver<AppiumWebElement> driver;
 
         private static Uri testServerAddress = new Uri(TestServers.Server1);
         private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(360); /* Change this to a more reasonable value */
@@ -42,7 +43,7 @@ namespace AppiumTests
             testCapabilities.PlatformVersion = String.Empty; // Not really needed
 
             testCapabilities.AssignAppiumCapabilities(ref capabilities);
-            driver = new AppiumDriver(testServerAddress, capabilities, INIT_TIMEOUT_SEC);
+            driver = new AndroidDriver<AppiumWebElement>(testServerAddress, capabilities, INIT_TIMEOUT_SEC);
             driver.Manage().Timeouts().ImplicitlyWait(IMPLICIT_TIMEOUT_SEC);
         }
 
@@ -58,7 +59,7 @@ namespace AppiumTests
         [TestMethod]
         public void CheckTestEnvironment()
         {
-            var context = driver.GetContext();
+            var context = driver.Context;
             Assert.IsNotNull(context);
         }
     }
