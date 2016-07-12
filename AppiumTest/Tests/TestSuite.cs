@@ -7,7 +7,6 @@
 namespace AppiumTests
 {
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting; /* We use .NET UnitTest Fwk, but any unit test fwk can be used */
     using AppiumTests.Helpers;
     using AppiumTest.Framework;
     using OpenQA.Selenium; /* Appium is based on Selenium, we need to include it */
@@ -19,9 +18,10 @@ namespace AppiumTests
     using OpenQA.Selenium.Remote;
     using System.Threading.Tasks;
     using System.Threading;
+    using Xunit;
+    using System.Diagnostics;
 
-    [TestClass]
-    public class PMSmokeTestSuite
+    public class PMSmokeTestSuite : IDisposable
     {
         private AndroidDriver<AppiumWebElement> driver;
 
@@ -29,8 +29,7 @@ namespace AppiumTests
         private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(360); /* Change this to a more reasonable value */
         private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10); /* Change this to a more reasonable value */
 
-        [TestInitialize]
-        public void BeforeAll()
+        public PMSmokeTestSuite()
         {
             DesiredCapabilities capabilities = new DesiredCapabilities();
             TestCapabilities testCapabilities = new TestCapabilities();
@@ -51,8 +50,7 @@ namespace AppiumTests
             driver.Manage().Timeouts().ImplicitlyWait(IMPLICIT_TIMEOUT_SEC);
         }
 
-        [TestCleanup]
-        public void AfterAll()
+        public void Dispose()
         {
             driver.Quit(); // Always quit, if you don't, next test session will fail
         }
@@ -60,15 +58,22 @@ namespace AppiumTests
         /// <summary>
         /// Just a simple test to heck out Appium environment.
         /// </summary>
-        [TestMethod]
-        public void  CheckTestEnvironment()
+        [Fact]
+        public void CheckTestEnvironment()
         {
             var context = driver.Context;
 
-            Thread.Sleep(1000*60);
+            // We have a context
+            Assert.NotEmpty(context);
 
-            Assert.IsNotNull(context);
-
+            // UnityPlayer active
+            Assert.Equal("com.unity3d.player.UnityPlayerActivity", driver.CurrentActivity);
         }
+
+        [Fact]
+        public async Task CheckHCPEnvironment()
+        {
+
+        } 
     }
 }
