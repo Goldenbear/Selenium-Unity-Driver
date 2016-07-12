@@ -20,6 +20,8 @@ namespace AppiumTests
     using System.Threading;
     using Xunit;
     using System.Diagnostics;
+    using OpenQA.Selenium.Support.UI;
+    using OpenQA.Selenium.Appium.HCP;
 
     public class PMSmokeTestSuite : IDisposable
     {
@@ -28,6 +30,7 @@ namespace AppiumTests
         private static Uri testServerAddress = new Uri(TestServers.Server1);
         private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(360); /* Change this to a more reasonable value */
         private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10); /* Change this to a more reasonable value */
+        private static TimeSpan HCP_TIMEOUT_SEC = TimeSpan.FromSeconds(100); /* Change this to a more reasonable value */
 
         public PMSmokeTestSuite()
         {
@@ -48,6 +51,8 @@ namespace AppiumTests
             testCapabilities.AssignAppiumCapabilities(ref capabilities);
             driver = new AndroidDriver<AppiumWebElement>(testServerAddress, capabilities, INIT_TIMEOUT_SEC);
             driver.Manage().Timeouts().ImplicitlyWait(IMPLICIT_TIMEOUT_SEC);
+
+            
         }
 
         public void Dispose()
@@ -71,9 +76,12 @@ namespace AppiumTests
         }
 
         [Fact]
-        public async Task CheckHCPEnvironment()
+        public void CheckHCPEnvironment()
         {
+            WebDriverWait wait = new WebDriverWait(driver, HCP_TIMEOUT_SEC);
+            bool result = wait.Until<bool>(ExpectedHCPConditions.HCPReady());
 
+            Assert.Equal(result, true);
         } 
     }
 }
