@@ -10,3 +10,9 @@
 [submodule "Appium-DotNet-Driver"]
 	path = Appium-DotNet-Driver
 	url = https://github.com/gopokyo-colinn/appium-dotnet-driver
+[submodule "Appium-Base-Driver"]
+	path = Appium-Base-Driver
+	url = https://github.com/gopokyo-colinn/appium-base-driver
+[submodule "Requisition"]
+	path = Requisition
+	url = https://github.com/gopokyo-colinn/requisition

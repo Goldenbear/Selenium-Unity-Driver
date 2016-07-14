@@ -59,7 +59,7 @@ namespace AppiumTests
         {
             driver.Quit(); // Always quit, if you don't, next test session will fail
         }
-
+         
         /// <summary>
         /// Just a simple test to heck out Appium environment.
         /// </summary>
@@ -79,6 +79,7 @@ namespace AppiumTests
         public void CheckHCPEnvironment()
         {
             WebDriverWait wait = new WebDriverWait(driver, HCP_TIMEOUT_SEC);
+            //Thread.Sleep(10000);
             bool result = wait.Until<bool>(ExpectedHCPConditions.HCPReady());
 
             Assert.Equal(result, true);
