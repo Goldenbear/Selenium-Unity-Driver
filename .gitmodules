@@ -16,3 +16,9 @@
 [submodule "Requisition"]
 	path = Requisition
 	url = https://github.com/gopokyo-colinn/requisition
+[submodule "Appium-Android-Driver"]
+	path = Appium-Android-Driver
+	url = ../../gopokyo-colinn/appium-android-driver
+[submodule "Appium-Android-Bootstrap"]
+	path = Appium-Android-Bootstrap
+	url = ../../gopokyo-colinn/appium-android-bootstrap
