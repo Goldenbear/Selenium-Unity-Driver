@@ -16,3 +16,6 @@
 [submodule "Requisition"]
 	path = Requisition
 	url = https://github.com/gopokyo-colinn/requisition
+[submodule "Appium-Dot-Exe"]
+	path = Appium-Dot-Exe
+	url = https://github.com/gopokyo-colinn/appium-dot-exe

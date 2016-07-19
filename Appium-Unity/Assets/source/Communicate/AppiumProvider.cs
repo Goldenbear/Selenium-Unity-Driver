@@ -21,6 +21,9 @@ using System.Threading;
 using System.Diagnostics;
 
 using Debug = UnityEngine.Debug;
+using System.IO;
+using SimpleJSON;
+using UniRx;
 
 /************************ REQUIRED COMPONENTS ***************************/
 
@@ -39,7 +42,7 @@ using Debug = UnityEngine.Debug;
 ///              a guid.
 ///            
 //////////////////////////////////////////////////////////////////////////
-public class AppiumProvider : MonoBehaviour
+public class AppiumProvider : MonoBehaviour, IDisposable
 {
 	/****************************** CONSTANTS *******************************/
 	
@@ -52,20 +55,27 @@ public class AppiumProvider : MonoBehaviour
 
 	/**************************** GLOBAL METHODS ****************************/
 
+    public class Job
+    {
+        public bool complete;
+        public string request;
+        public string result;
+    }
+
     // Accept one client connection asynchronously.
-    private static void DoBeginAcceptHttpClient(HttpListener listener)
+    private static void DoBeginAcceptHttpClient(AppiumProvider provider, HttpListener listener)
     {
         // Set the event to nonsignaled state.
         g_httpClientConnected.Reset();
 
         // Start to listen for connections from a client.
-        Console.WriteLine("Waiting for a connection...");
+        Debug.Log("Waiting for a connection...");
 
         // Accept the connection. 
         IAsyncResult result = listener.BeginGetContext(
-            new AsyncCallback(DoAcceptHttpClientCallback), listener);
+            new AsyncCallback(DoAcceptHttpClientCallback), new HttpPair{ provider = provider, listener = listener } );
 
-        Debug.Log("Waiting for request to be processed asyncronously.");
+        Debug.Log("Waiting for request to be processed asyncronously...");
 
         // Wait until a connection is made and processed before 
         // continuing.
@@ -74,11 +84,22 @@ public class AppiumProvider : MonoBehaviour
         Debug.Log("Request processed asyncronously.");
     }
 
+    public struct HttpPair
+    {
+        public AppiumProvider provider;
+        public HttpListener listener;
+    }
+
     // Process the client connection.
     private static void DoAcceptHttpClientCallback(IAsyncResult ar) 
     {
+        HttpPair dobject = (HttpPair)ar.AsyncState;
+
+        // Get the appium provider that handles the client request.
+        AppiumProvider provider = (AppiumProvider) dobject.provider;
+
         // Get the listener that handles the client request.
-        HttpListener listener = (HttpListener) ar.AsyncState;
+        HttpListener listener = (HttpListener) dobject.listener;
 
         // Call EndGetContext to complete the asynchronous operation.
         HttpListenerContext context = listener.EndGetContext(ar);
@@ -90,10 +111,33 @@ public class AppiumProvider : MonoBehaviour
         HttpListenerResponse response = context.Response;
         string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
 
+        Debug.Log("Request received");
+
         if(request.RawUrl.StartsWith("/alive"))
         {
             // Construct a response.
             responseString = "Appium-HCP Socket Server Ready";
+        }
+        else if(request.RawUrl.StartsWith("/action"))
+            // https://github.com/SeleniumHQ/selenium/wiki/JsonWireProtocol
+        {
+            string text;
+            using (var reader = new StreamReader(request.InputStream,
+                                                    request.ContentEncoding))
+            {
+                text = reader.ReadToEnd();
+            }
+
+            Job job = new Job { complete = false, request = text, result = "" };
+            provider.jobs.Enqueue(job);
+
+            while(job.complete == false)
+            {
+                // spin
+                // TODO: timeout
+            }
+
+            responseString = job.result;
         }
 
         // Construct a response.
@@ -112,7 +156,7 @@ public class AppiumProvider : MonoBehaviour
     }
 
     // The main thread loop
-    private static void Run(string uri)
+    private static void Run(AppiumProvider provider)
     {
         if (!HttpListener.IsSupported)
         {
@@ -123,8 +167,8 @@ public class AppiumProvider : MonoBehaviour
         try
         {
             string[] prefixes = {
-                uri + "/alive/",
-                uri + "/find/" };    // TODO: Append endpoints
+                provider.m_sUri + "/alive/",
+                provider.m_sUri + "/action/" };    // TODO: Append endpoints
 
             // TcpListener server = new TcpListener(port);
             server = new HttpListener();
@@ -140,7 +184,7 @@ public class AppiumProvider : MonoBehaviour
 
             while(true)
             {
-                DoBeginAcceptHttpClient(server);
+                DoBeginAcceptHttpClient(provider, server);
             }
         }
         catch (Exception e)
@@ -168,13 +212,25 @@ public class AppiumProvider : MonoBehaviour
     /***************************** PUBLIC METHODS ***************************/
 
     /**************************** PRIVATE METHODS ***************************/
+    
+    //////////////////////////////////////////////////////////////////////////
+	/// @brief Returns a collection of "exposed" game objects.  These are game 
+    /// objects that have a "UniqueId" associated to them.
+	//////////////////////////////////////////////////////////////////////////
+    private UniqueId[] GetExposedGameObjects()
+    {
+        return GameObject.FindObjectsOfType<UniqueId>();
+    }
+
+    Queue<Job> jobs;
 
 	//////////////////////////////////////////////////////////////////////////
 	/// @brief Initialise class after construction.
 	//////////////////////////////////////////////////////////////////////////
 	private void Awake()
 	{
-        m_listenerThread = new Thread( () => Run(m_sUri) );
+        jobs = new Queue<Job>();
+        m_listenerThread = new Thread( () => Run(this) );
 	}
 
     
@@ -184,6 +240,7 @@ public class AppiumProvider : MonoBehaviour
 	//////////////////////////////////////////////////////////////////////////
 	private void Start()
 	{
+        UniqueId[] gameobjects = this.GetExposedGameObjects();
         m_listenerThread.Start();
 	}
 
@@ -192,5 +249,51 @@ public class AppiumProvider : MonoBehaviour
 	//////////////////////////////////////////////////////////////////////////
 	private void Update()
 	{
+        if(jobs.Count > 0)
+        {
+            Job job = jobs.Dequeue();
+
+            doJob(job);
+        }
 	}
+
+    protected void doJob(Job job)
+    {
+        try
+        { 
+            // TODO: Place in method
+            UniqueId[] gameobjects = this.GetExposedGameObjects();
+
+            Debug.Log(job.request);
+
+
+            var data = JSON.Parse(job.request);
+
+            Debug.Log(data);
+            
+            if(data["cmd"].Value == "find")
+            {
+                if(data["using"].Value == "name")
+                {
+                    string name = data["name"].Value;
+
+                    var go = GameObject.Find(name);
+                    if(go != null)
+                    {
+                        job.result = go.GetComponent<UniqueId>().AsJson();
+                    }
+                }
+            }
+        }
+        finally
+        {
+            job.complete = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Debug.Log("Disposing");
+        m_listenerThread.Join();
+    }
 }

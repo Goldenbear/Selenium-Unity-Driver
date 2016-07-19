@@ -63,6 +63,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Appium-Unity.CSharp.Plugins.csproj">
+      <Project>{0B07BF6F-6F47-ED57-4595-F2A03DF4A1AF}</Project>
+      <Name>Appium-Unity.CSharp.Plugins</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\GameObjectActivator.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ActiveStateToggler.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ApplicationManager.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ChangeColor.cs" />
@@ -75,9 +82,13 @@
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ShowSliderValue.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\TiltWindow.cs" />
     <Compile Include="Assets\source\Communicate\AppiumProvider.cs" />
+    <Compile Include="Assets\source\HCPElement_GameObject.cs" />
+    <Compile Include="Assets\source\IHCPElement.cs" />
+    <Compile Include="Assets\source\SimpleJSON.cs" />
     <Compile Include="Assets\source\UniqueId.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
     <None Include="Assets\samples\unity_samples_ui\Fonts\Jupiter\LICENSE.txt" />
     <None Include="Assets\samples\unity_samples_ui\Materials\UI-Default-No-Alpha.shader" />
     <None Include="Assets\samples\unity_samples_ui\Textures and Sprites\SF UI\Background\LICENSE.txt" />

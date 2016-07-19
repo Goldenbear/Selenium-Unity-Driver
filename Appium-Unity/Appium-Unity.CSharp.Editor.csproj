@@ -96,6 +96,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Appium-Unity.CSharp.Plugins.csproj">
+      <Project>{0B07BF6F-6F47-ED57-4595-F2A03DF4A1AF}</Project>
+      <Name>Appium-Unity.CSharp.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="Appium-Unity.CSharp.csproj">
       <Project>{33841F53-6951-9CFB-C867-F2720B1CB722}</Project>
       <Name>Appium-Unity.CSharp</Name>
@@ -107,6 +111,7 @@
     <Compile Include="Assets\source\Editor\UniqueIdDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
     <None Include="Assets\samples\unity_samples_ui\Fonts\Jupiter\LICENSE.txt" />
     <None Include="Assets\samples\unity_samples_ui\Materials\UI-Default-No-Alpha.shader" />
     <None Include="Assets\samples\unity_samples_ui\Textures and Sprites\SF UI\Background\LICENSE.txt" />

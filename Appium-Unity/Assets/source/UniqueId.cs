@@ -11,6 +11,7 @@
 /************************ EXTERNAL NAMESPACES ***************************/
 
 using UnityEngine;																// Unity 			(ref http://docs.unity3d.com/Documentation/ScriptReference/index.html)
+using SimpleJSON;
 
 /************************ REQUIRED COMPONENTS ***************************/
 
@@ -30,5 +31,15 @@ public class UniqueId : MonoBehaviour
     /***************************** PUBLIC DATA ******************************/
     [UniqueIdentifier]
     public string m_sUniqueGuid;
+
+    public string id { get { return m_sUniqueGuid; } }
+
+    public virtual string AsJson()
+    {
+        var N = JSON.Parse("");
+        N["ELEMENT"] = m_sUniqueGuid;
+
+        return N.ToString();
+    }
 }
 

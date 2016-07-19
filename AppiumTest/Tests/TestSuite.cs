@@ -79,10 +79,23 @@ namespace AppiumTests
         public void CheckHCPEnvironment()
         {
             WebDriverWait wait = new WebDriverWait(driver, HCP_TIMEOUT_SEC);
-            //Thread.Sleep(10000);
             bool result = wait.Until<bool>(ExpectedHCPConditions.HCPReady());
 
             Assert.Equal(result, true);
         } 
+
+        [Fact]
+        public void CheckFind()
+        {
+            CheckHCPEnvironment();
+            var hcp = driver.HCPIterface;
+
+            // This is how to get all
+            // var elementsList = driver.FindElementsByXPath("//*");
+
+
+            AppiumHCPWebElement button = hcp.FindElementByName("Button");
+            button.Click();
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appium-Unity.CSharp.Plugins", "Appium-Unity.CSharp.Plugins.csproj", "{0B07BF6F-6F47-ED57-4595-F2A03DF4A1AF}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appium-Unity.CSharp", "Appium-Unity.CSharp.csproj", "{33841F53-6951-9CFB-C867-F2720B1CB722}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Appium-Unity.CSharp.Editor", "Appium-Unity.CSharp.Editor.csproj", "{DE798862-5384-A764-2B6D-C378F28DED0B}"
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B07BF6F-6F47-ED57-4595-F2A03DF4A1AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B07BF6F-6F47-ED57-4595-F2A03DF4A1AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B07BF6F-6F47-ED57-4595-F2A03DF4A1AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B07BF6F-6F47-ED57-4595-F2A03DF4A1AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{33841F53-6951-9CFB-C867-F2720B1CB722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{33841F53-6951-9CFB-C867-F2720B1CB722}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33841F53-6951-9CFB-C867-F2720B1CB722}.Release|Any CPU.ActiveCfg = Release|Any CPU
