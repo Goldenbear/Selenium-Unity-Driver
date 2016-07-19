@@ -19,3 +19,9 @@
 [submodule "Appium-Dot-Exe"]
 	path = Appium-Dot-Exe
 	url = https://github.com/gopokyo-colinn/appium-dot-exe
+[submodule "Appium-Android-Driver"]
+	path = Appium-Android-Driver
+	url = ../../gopokyo-colinn/appium-android-driver
+[submodule "Appium-Android-Bootstrap"]
+	path = Appium-Android-Bootstrap
+	url = ../../gopokyo-colinn/appium-android-bootstrap
