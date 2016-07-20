@@ -25,6 +25,10 @@ using System.IO;
 using SimpleJSON;
 using UniRx;
 
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System.Linq;
+
 /************************ REQUIRED COMPONENTS ***************************/
 
 /************************** THE SCRIPT CLASS ****************************/
@@ -270,19 +274,18 @@ public class AppiumProvider : MonoBehaviour, IDisposable
             var data = JSON.Parse(job.request);
 
             Debug.Log(data);
-            
-            if(data["cmd"].Value == "find")
-            {
-                if(data["using"].Value == "name")
-                {
-                    string name = data["name"].Value;
 
-                    var go = GameObject.Find(name);
-                    if(go != null)
-                    {
-                        job.result = go.GetComponent<UniqueId>().AsJson();
-                    }
-                }
+            string command = data["cmd"].Value;
+
+            switch(command)
+            {
+                case "find":
+                    job.result = this.doJob_find(data);
+                    break;
+
+                case "element:click":
+                    job.result = this.doJob_element_click(data);
+                    break;
             }
         }
         finally
@@ -295,5 +298,38 @@ public class AppiumProvider : MonoBehaviour, IDisposable
     {
         Debug.Log("Disposing");
         m_listenerThread.Join();
+    }
+
+    protected string doJob_find(JSONNode data)
+    {
+        string result = "error";
+
+        if(data["using"].Value == "name")
+        {
+            string name = data["name"].Value;
+
+            var go = GameObject.Find(name);
+            if(go != null)
+            {
+                result = go.GetComponent<UniqueId>().AsJson();
+            }
+        }
+
+        return result;
+    }
+
+    protected string doJob_element_click(JSONNode data)
+    {
+        string id = data["elementId"].Value;
+
+        UniqueId[] things = GameObject.FindObjectsOfType<UniqueId>();
+        var toClick = from item in things
+                           where item.m_sUniqueGuid == id
+                           select item;
+                
+        var ptr = new PointerEventData(EventSystem.current);
+        ExecuteEvents.Execute(toClick.First().gameObject, ptr, ExecuteEvents.submitHandler);
+
+        return "ok";
     }
 }

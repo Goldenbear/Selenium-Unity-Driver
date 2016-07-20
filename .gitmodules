@@ -25,3 +25,6 @@
 [submodule "Appium-Android-Bootstrap"]
 	path = Appium-Android-Bootstrap
 	url = ../../gopokyo-colinn/appium-android-bootstrap
+[submodule "Appium-IOS-Driver"]
+	path = Appium-IOS-Driver
+	url = https://github.com/gopokyo-colinn/appium-ios-driver
