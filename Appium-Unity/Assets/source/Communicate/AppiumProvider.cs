@@ -277,15 +277,20 @@ public class AppiumProvider : MonoBehaviour, IDisposable
 
             string command = data["cmd"].Value;
 
-            switch(command)
+            if(command == "action")
             {
-                case "find":
-                    job.result = this.doJob_find(data);
-                    break;
+                var parameters = data["params"];
 
-                case "element:click":
-                    job.result = this.doJob_element_click(data);
-                    break;
+                switch(data["action"].Value)
+                {
+                    case "find":
+                        job.result = this.doJob_find(parameters);
+                        break;
+
+                    case "element:click":
+                        job.result = this.doJob_element_click(parameters);
+                        break;
+                }
             }
         }
         finally
@@ -299,14 +304,14 @@ public class AppiumProvider : MonoBehaviour, IDisposable
         Debug.Log("Disposing");
         m_listenerThread.Join();
     }
-
+        
     protected string doJob_find(JSONNode data)
     {
         string result = "error";
 
-        if(data["using"].Value == "name")
+        if(data["strategy"].Value == "name")
         {
-            string name = data["name"].Value;
+            string name = data["selector"].Value;
 
             var go = GameObject.Find(name);
             if(go != null)

@@ -47,6 +47,7 @@ namespace AppiumTests
             testCapabilities.PlatformVersion = String.Empty; // Not really needed
             testCapabilities.SupportsHCP = true;
             testCapabilities.HCPHost = "http://127.0.0.1";
+            testCapabilities.HCPPort = 14726;
 
             testCapabilities.AssignAppiumCapabilities(ref capabilities);
             driver = new AndroidDriver<AppiumWebElement>(testServerAddress, capabilities, INIT_TIMEOUT_SEC);
@@ -87,7 +88,10 @@ namespace AppiumTests
         [Fact]
         public void CheckFind()
         {
-            CheckHCPEnvironment();
+            
+            WebDriverWait wait = new WebDriverWait(driver, HCP_TIMEOUT_SEC);
+            bool result = wait.Until<bool>(ExpectedHCPConditions.HCPReady());
+
             var hcp = driver.HCPIterface;
 
             // This is how to get all
@@ -96,6 +100,8 @@ namespace AppiumTests
 
             AppiumHCPWebElement button = hcp.FindElementByName("Button");
             button.Click();
+
+            Assert.False(button == null);
         }
     }
 }

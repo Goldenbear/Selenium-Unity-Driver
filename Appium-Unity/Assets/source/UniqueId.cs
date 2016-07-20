@@ -36,8 +36,12 @@ public class UniqueId : MonoBehaviour
 
     public virtual string AsJson()
     {
+        var M = new JSONClass();
+        M.Add("ELEMENT", m_sUniqueGuid);
+
         var N = new JSONClass();
-        N.Add("ELEMENT", m_sUniqueGuid);
+        N.Add("status", "0");
+        N.Add("value", M);
 
         return N.ToString();
     }
