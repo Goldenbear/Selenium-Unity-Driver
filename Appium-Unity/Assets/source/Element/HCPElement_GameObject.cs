@@ -22,14 +22,6 @@ public class HCPElement_GameObject : UniqueId, IHCPElement
         }
     }
 
-    public string Id
-    {
-        get
-        {
-            return this.m_sUniqueGuid;
-        }
-    }
-
     public Vector2 Location
     {
         get

@@ -30,9 +30,9 @@ public class UniqueId : MonoBehaviour
 {
     /***************************** PUBLIC DATA ******************************/
     [UniqueIdentifier]
-    public string m_sUniqueGuid;
-
-    public string id { get { return m_sUniqueGuid; } }
+    [SerializeField]
+    protected string m_sUniqueGuid;
+    public string Id { get { return m_sUniqueGuid; } }
 
     public virtual string AsJson()
     {
