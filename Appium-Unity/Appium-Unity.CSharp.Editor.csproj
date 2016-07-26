@@ -110,7 +110,7 @@
   <ItemGroup>
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\Editor\AlphaNumericSort.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\Editor\GUIHierarchy.cs" />
-    <Compile Include="Assets\source\Editor\Utility\UniqueIdDrawer.cs" />
+    <Compile Include="Assets\source\Editor\HCP\ElementDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\UniRx\ReadMe.txt" />

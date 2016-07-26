@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using HCP;
+using HCP.SimpleJSON;
+using System.Xml;
+
+namespace HCP.Requests
+{
+    // Format sample at EOF
+    public class PageSourceRequest : JobRequest
+    {
+        public PageSourceRequest(string json) : base(json)
+        {
+        }
+
+        public override JobResponse Process()
+        {
+            throw new NotImplementedException("TODO: Not worth the effort if not going to be used");
+        }
+    }
+}
+
+//<?xml version="1.0" encoding="UTF-8"?>
+//<hierarchy rotation="0">
+//	<android.widget.FrameLayout index="0" text="" class="android.widget.FrameLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,0][1920,1080]" resource-id="" instance="0">
+//		<android.widget.LinearLayout index="0" text="" class="android.widget.LinearLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,0][1920,1080]" resource-id="" instance="0">
+//			<android.widget.FrameLayout index="0" text="" class="android.widget.FrameLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,25][1920,50]" resource-id="" instance="1">
+//				<android.widget.TextView index="0" text="Contact Manager" class="android.widget.TextView" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[6,26][1914,48]" resource-id="android:id/title" instance="0"/>
+//			</android.widget.FrameLayout>
+//			<android.widget.FrameLayout index="1" text="" class="android.widget.FrameLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,50][1920,1080]" resource-id="android:id/content" instance="2">
+//				<android.widget.LinearLayout index="0" text="" class="android.widget.LinearLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,50][1920,1080]" resource-id="" instance="1">
+//					<android.widget.ListView index="0" text="" class="android.widget.ListView" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="true" enabled="true" focusable="true" focused="true" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,50][1920,984]" resource-id="com.example.android.contactmanager:id/contactList" instance="0">
+//						<android.widget.LinearLayout index="0" text="" class="android.widget.LinearLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="true" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,50][90,69]" resource-id="" instance="2">
+//							<android.widget.TextView index="0" text="Gordon Wright" class="android.widget.TextView" package="com.example.android.contactmanager" content-desc="false" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,50][90,69]" resource-id="com.example.android.contactmanager:id/contactEntryText" instance="1"/>
+//						</android.widget.LinearLayout>
+//						<android.widget.LinearLayout index="1" text="" class="android.widget.LinearLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="true" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,70][121,89]" resource-id="" instance="3">
+//							<android.widget.TextView index="0" text="jason@kotaku.com" class="android.widget.TextView" package="com.example.android.contactmanager" content-desc="false" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,70][121,89]" resource-id="com.example.android.contactmanager:id/contactEntryText" instance="2"/>
+//						</android.widget.LinearLayout>
+//						<android.widget.LinearLayout index="2" text="" class="android.widget.LinearLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="true" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,90][32,109]" resource-id="" instance="4">
+//							<android.widget.TextView index="0" text="Mom" class="android.widget.TextView" package="com.example.android.contactmanager" content-desc="false" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,90][32,109]" resource-id="com.example.android.contactmanager:id/contactEntryText" instance="3"/>
+//						</android.widget.LinearLayout>
+//						<android.widget.LinearLayout index="3" text="" class="android.widget.LinearLayout" package="com.example.android.contactmanager" content-desc="" checkable="false" checked="false" clickable="true" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,110][76,129]" resource-id="" instance="5">
+//							<android.widget.TextView index="0" text="Shea Martin" class="android.widget.TextView" package="com.example.android.contactmanager" content-desc="false" checkable="false" checked="false" clickable="false" enabled="true" focusable="false" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,110][76,129]" resource-id="com.example.android.contactmanager:id/contactEntryText" instance="4"/>
+//						</android.widget.LinearLayout>
+//					</android.widget.ListView>
+//					<android.widget.CheckBox index="1" text="Show Invisible Contacts (Only)" class="android.widget.CheckBox" package="com.example.android.contactmanager" content-desc="Show Invisible Contacts (Only)" checkable="true" checked="false" clickable="true" enabled="true" focusable="true" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,984][254,1032]" resource-id="com.example.android.contactmanager:id/showInvisible" instance="0"/>
+//					<android.widget.Button index="2" text="Add Contact" class="android.widget.Button" package="com.example.android.contactmanager" content-desc="Add Contact" checkable="false" checked="false" clickable="true" enabled="true" focusable="true" focused="false" scrollable="false" long-clickable="false" password="false" selected="false" bounds="[0,1032][1920,1080]" resource-id="com.example.android.contactmanager:id/addContactButton" instance="0"/>
+//				</android.widget.LinearLayout>
+//			</android.widget.FrameLayout>
+//		</android.widget.LinearLayout>
+//	</android.widget.FrameLayout>
+//</hierarchy>

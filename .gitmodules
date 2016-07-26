@@ -28,3 +28,6 @@
 [submodule "Appium-IOS-Driver"]
 	path = Appium-IOS-Driver
 	url = https://github.com/gopokyo-colinn/appium-ios-driver
+[submodule "Selenium"]
+	path = Selenium
+	url = https://github.com/gopokyo-colinn/selenium

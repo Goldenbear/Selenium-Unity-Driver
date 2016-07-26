@@ -71,10 +71,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\source\Communicate\Listener.cs" />
-    <Compile Include="Assets\source\Communicate\HCP.cs" />
-    <Compile Include="Assets\source\Jobs\IJobRequestQueue.cs" />
-    <Compile Include="Assets\source\Utility\GameObjectActivator.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ActiveStateToggler.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ApplicationManager.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ChangeColor.cs" />
@@ -86,16 +82,28 @@
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ScrollDetailTexture.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\ShowSliderValue.cs" />
     <Compile Include="Assets\samples\unity_samples_ui\Scripts\TiltWindow.cs" />
-    <Compile Include="Assets\source\Communicate\AppiumProvider.cs" />
-    <Compile Include="Assets\source\Communicate\IListener.cs" />
-    <Compile Include="Assets\source\Communicate\IResponder.cs" />
-    <Compile Include="Assets\source\Element\HCPElement_GameObject.cs" />
-    <Compile Include="Assets\source\Element\IElement.cs" />
-    <Compile Include="Assets\source\Jobs\IJob.cs" />
-    <Compile Include="Assets\source\Jobs\IJobRequest.cs" />
-    <Compile Include="Assets\source\Jobs\IJobResponse.cs" />
-    <Compile Include="Assets\source\Utility\SimpleJSON.cs" />
-    <Compile Include="Assets\source\Utility\UniqueId.cs" />
+    <Compile Include="Assets\source\HCP\Element.cs" />
+    <Compile Include="Assets\source\HCP\Job.cs" />
+    <Compile Include="Assets\source\HCP\JobRequest.cs" />
+    <Compile Include="Assets\source\HCP\JobResponse.cs" />
+    <Compile Include="Assets\source\HCP\Requests\ClearElementTextRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\ClickElementRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\ComplexTapElementRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\FindElementRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\GetElementLocationRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\GetElementAttributeRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\GetElementSizeRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\GetElementTextRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\PageSourceRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\SetElementTextRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\TouchDownElementRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\TouchLongClickElementRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\TouchMoveElementRequest.cs" />
+    <Compile Include="Assets\source\HCP\Requests\TouchUpElementRequest.cs" />
+    <Compile Include="Assets\source\HCP\Responses\JSONResponse.cs" />
+    <Compile Include="Assets\source\HCP\Responses\StringResponse.cs" />
+    <Compile Include="Assets\source\HCP\Server.cs" />
+    <Compile Include="Assets\source\HCP\SimpleJSON.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
@@ -103,6 +111,5 @@
     <None Include="Assets\samples\unity_samples_ui\Materials\UI-Default-No-Alpha.shader" />
     <None Include="Assets\samples\unity_samples_ui\Textures and Sprites\SF UI\Background\LICENSE.txt" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
