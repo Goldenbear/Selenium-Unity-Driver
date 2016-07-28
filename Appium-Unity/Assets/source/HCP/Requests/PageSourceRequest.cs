@@ -11,7 +11,7 @@ namespace HCP.Requests
     // Format sample at EOF
     public class PageSourceRequest : JobRequest
     {
-        public PageSourceRequest(string json) : base(json)
+        public PageSourceRequest(JSONClass json) : base(json)
         {
         }
 

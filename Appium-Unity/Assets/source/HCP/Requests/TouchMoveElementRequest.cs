@@ -16,7 +16,7 @@ namespace HCP.Requests
         public float X { get { return Data["x"].AsFloat; } }
         public float Y { get { return Data["y"].AsFloat; } }
         
-        public TouchMoveElementRequest(string json) : base(json)
+        public TouchMoveElementRequest(JSONClass json) : base(json)
         {
         }
 

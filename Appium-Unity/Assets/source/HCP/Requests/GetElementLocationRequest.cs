@@ -13,7 +13,7 @@ namespace HCP.Requests
     {
         public string Id { get { return Data["elementId"]; } }
         
-        public GetElementLocationRequest(string json) : base(json)
+        public GetElementLocationRequest(JSONClass json) : base(json)
         {
         }
 
@@ -22,7 +22,7 @@ namespace HCP.Requests
             var element = JobRequest.GetElementById(this.Id);
             Vector3 point = element.transform.TransformPoint(Vector3.zero);
 
-            return Responses.JSONResponse.FromObject(new { x = point.x, y = point.y, z = point.z });
+            return Responses.JSONResponse.FromObject(new { x = (int)point.x, y = (int)point.y, z = (int)point.z });
                 // Note that appium has no concept of z, but passing it anyways
         }
     }

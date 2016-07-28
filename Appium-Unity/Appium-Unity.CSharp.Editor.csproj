@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Editor:5</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.3.5f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -98,10 +96,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Appium-Unity.CSharp.Plugins.csproj">
-      <Project>{0B07BF6F-6F47-ED57-4595-F2A03DF4A1AF}</Project>
-      <Name>Appium-Unity.CSharp.Plugins</Name>
-    </ProjectReference>
     <ProjectReference Include="Appium-Unity.CSharp.csproj">
       <Project>{33841F53-6951-9CFB-C867-F2720B1CB722}</Project>
       <Name>Appium-Unity.CSharp</Name>
@@ -113,7 +107,6 @@
     <Compile Include="Assets\source\Editor\HCP\ElementDrawer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Plugins\UniRx\ReadMe.txt" />
     <None Include="Assets\samples\unity_samples_ui\Fonts\Jupiter\LICENSE.txt" />
     <None Include="Assets\samples\unity_samples_ui\Materials\UI-Default-No-Alpha.shader" />
     <None Include="Assets\samples\unity_samples_ui\Textures and Sprites\SF UI\Background\LICENSE.txt" />

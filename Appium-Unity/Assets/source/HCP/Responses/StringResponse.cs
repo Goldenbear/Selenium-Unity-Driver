@@ -8,21 +8,12 @@ namespace HCP.Responses
 {
     public class StringResponse : JobResponse
     {
-        protected string m_sValue;
-
-        public StringResponse()
+        public StringResponse() : base("")
         {
-            this.m_sValue = "";
         }
 
-        public StringResponse(string value)
+        public StringResponse(string value) : base(value)
         {
-            this.m_sValue = value;
-        }
-
-        public override string ToString()
-        {
-            return this.m_sValue.ToString();
         }
     }
 }

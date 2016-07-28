@@ -16,35 +16,17 @@ namespace HCP.Responses
             return new JSONResponse(input);
         }
 
-        public static JSONResponse FromArray(object[] input)
+        public static JSONResponse FromArray(object[] input, ArrayEntryFormatter builder = null)
         {
-            return new JSONResponse(input);
+            return new JSONResponse(input, builder);
         }
 
-
-        protected JSONNode m_sValue;
-
-        public JSONResponse()
+        protected JSONResponse(object o) : base(o)
         {
-            this.m_sValue = new JSONClass();
         }
 
-        protected JSONResponse(object o) : this()
+        protected JSONResponse(object[] a, ArrayEntryFormatter builder) : base(a, builder)
         {
-            Type type = o.GetType();
-            IList<PropertyInfo> props = new List<PropertyInfo>(type.GetProperties());
-
-            foreach (PropertyInfo prop in props)
-            {
-                object propValue = prop.GetValue(o, null);
-
-                m_sValue.Add(prop.Name, prop.GetValue(o, null).ToString());
-            }
-        }
-
-        public override string ToString()
-        {
-            return this.m_sValue.ToString();
         }
     }
 }

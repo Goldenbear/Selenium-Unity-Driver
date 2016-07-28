@@ -16,7 +16,7 @@ namespace HCP.Requests
         public float X { get { return Data["x"].AsFloat; } }
         public float Y { get { return Data["y"].AsFloat; } }
         
-        public TouchUpElementRequest(string json) : base(json)
+        public TouchUpElementRequest(JSONClass json) : base(json)
         {
         }
 

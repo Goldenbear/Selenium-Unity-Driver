@@ -38,7 +38,7 @@ namespace HCP.Requests
         }
 
         
-        public GetElementAttributeRequest(string json) : base(json)
+        public GetElementAttributeRequest(JSONClass json) : base(json)
         {
         }
 
@@ -53,13 +53,13 @@ namespace HCP.Requests
                     response = element.gameObject.name;
                     break;
                 case EAttribute.DISPLAYED:
-                    response = element.gameObject.activeInHierarchy.ToString();
+                    response = element.gameObject.activeInHierarchy ? "true" : "false";
                     break;
                 case EAttribute.ENABLED:
-                    response = element.gameObject.activeSelf.ToString();
+                    response = element.gameObject.activeSelf ? "true" : "false";
                     break;
                 case EAttribute.SELECTED:
-                    response = (element.gameObject == EventSystem.current.currentSelectedGameObject).ToString();
+                    response = (element.gameObject == EventSystem.current.currentSelectedGameObject) ? "true" : "false";
                     break;
             }
 

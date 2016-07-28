@@ -14,7 +14,7 @@ namespace HCP.Requests
         public float X { get { return Data["x"].AsFloat; } }
         public float Y { get { return Data["y"].AsFloat; } }
         
-        public ComplexTapRequest(string json) : base(json)
+        public ComplexTapRequest(JSONClass json) : base(json)
         {
         }
 

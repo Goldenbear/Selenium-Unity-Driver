@@ -17,7 +17,7 @@ namespace HCP.Requests
         public float Y { get { return Data["y"].AsFloat; } }
         public float Duration { get { return Data["duration"].AsFloat; } }
         
-        public TouchLongClickElementRequest(string json) : base(json)
+        public TouchLongClickElementRequest(JSONClass json) : base(json)
         {
             m_endTime = 0;
             m_startTime = 0;

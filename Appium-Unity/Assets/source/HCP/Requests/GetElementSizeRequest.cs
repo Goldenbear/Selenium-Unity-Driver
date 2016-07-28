@@ -13,16 +13,21 @@ namespace HCP.Requests
     {
         public string Id { get { return Data["elementId"]; } }
         
-        public GetElementSizeRequest(string json) : base(json)
+        public GetElementSizeRequest(JSONClass json) : base(json)
         {
         }
 
         public override JobResponse Process()
         {
             var element = JobRequest.GetElementById(this.Id);
-            Bounds bounds = element.GetComponent<Renderer>().bounds;
+            var renderer = element.GetComponent<Renderer>();
+            var rectTransform = element.GetComponent<RectTransform>();
 
-            return Responses.JSONResponse.FromObject(new { width = bounds.extents.x, height = bounds.extents.y, depth = bounds.extents.z });
+            Bounds bounds = new Bounds();
+            if(renderer != null) bounds = renderer.bounds;
+            if(rectTransform != null) bounds = new Bounds(Vector3.zero, rectTransform.sizeDelta);
+
+            return Responses.JSONResponse.FromObject(new { width = (int)bounds.extents.x, height = (int)bounds.extents.y, depth = (int)bounds.extents.z });
                 // Note that appium has no concept of depth, but passing it anyways
         }
     }

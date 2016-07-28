@@ -16,7 +16,7 @@ namespace HCP.Requests
         public float X { get { return Data["x"].AsFloat; } }
         public float Y { get { return Data["y"].AsFloat; } }
         
-        public ClickElementRequest(string json) : base(json)
+        public ClickElementRequest(JSONClass json) : base(json)
         {
         }
 

@@ -14,7 +14,7 @@ namespace HCP.Requests
     {
         public string Id { get { return Data["elementId"]; } }
         
-        public GetElementTextRequest(string json) : base(json)
+        public GetElementTextRequest(JSONClass json) : base(json)
         {
         }
 

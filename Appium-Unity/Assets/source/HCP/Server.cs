@@ -33,55 +33,22 @@ namespace HCP
 	
 	    /***************************** GLOBAL DATA ******************************/
     
-        // Thread signal.
-        private static ManualResetEvent g_httpClientConnected = new ManualResetEvent(false);
-
 	    /**************************** GLOBAL METHODS ****************************/
         
-        //////////////////////////////////////////////////////////////////////////
-        /// @brief  Accept one client connection asynchronously.
-        //////////////////////////////////////////////////////////////////////////
-        private static void DoBeginAcceptHttpClient(Server server)
-        {
-            // Set the event to nonsignaled state.
-            g_httpClientConnected.Reset();
 
-            // Start to listen for connections from a client.
-            Console.WriteLine("Waiting for a connection...");
-
-            // Accept the connection. 
-            IAsyncResult result = server.Listener.BeginGetContext(
-                new AsyncCallback(DoAcceptHttpClientCallback), server );
-
-            Console.WriteLine("Waiting for request to be processed asyncronously...");
-
-            // Wait until a connection is made and processed before continuing.
-            g_httpClientConnected.WaitOne();
-
-            Console.WriteLine("Request processed asyncronously.");
-        }
-        
         //////////////////////////////////////////////////////////////////////////
         /// @brief  Process the client connection.
         //////////////////////////////////////////////////////////////////////////
-        private static void DoAcceptHttpClientCallback(IAsyncResult ar) 
+        private void AcceptContext(HttpListenerContext context) 
         {
-            Server server = (Server)ar.AsyncState;
-
-            // Get the listener that handles the client request.
-            HttpListener listener = (HttpListener) server.Listener;
-
-            // Call EndGetContext to complete the asynchronous operation.
-            HttpListenerContext context = listener.EndGetContext(ar);
-
             // Obtain the request.
             HttpListenerRequest request = context.Request;
 
             // Obtain a response object.
             HttpListenerResponse response = context.Response;
-            string responseString = null;
+            string responseString = new Responses.ErrorResponse().ToJSON(0);
 
-            Console.WriteLine("Request received");
+            Debug.Log("Request received");
 
             if(request.RawUrl.StartsWith("/alive"))
             {
@@ -98,22 +65,9 @@ namespace HCP
                     text = reader.ReadToEnd();
                 }
 
-                try
-                {
-                    Job job = server.QueueActionRequest(text);
-
-                    while(
-                        job.State == Job.EState.IDLE ||
-                        job.State == Job.EState.RUNNING)
-                    {
-                        // spin
-                    }
-
-                    responseString = job.Response;
-                }
-                catch
-                {
-                }
+                var job = this.QueueActionRequest(text);
+                job.Await();
+                responseString = job.Response.ToJSON(0);
             }
 
             // Construct a response.
@@ -126,40 +80,57 @@ namespace HCP
 
             // You must close the output stream.
             output.Close();
+        }
 
-            // Signal the calling thread to continue.
-            g_httpClientConnected.Set();
+        private void Stop()
+        {
+            Debug.Log("Stopping HCP Server");
+            this.Listener.Stop();
+            if(m_listenerThread != null)
+            {
+                m_listenerThread.Join();
+            }
+            if(this.Stopped != null) this.Stopped();
+        }
+
+        private void Close()
+        {
+            Debug.Log("Closing HCP Server");
+            this.Listener.Close();
         }
 
         // The main thread loop
-        private static void Run(Server server)
+        private void Run()
         {
+            Debug.Log("Starting HCP Server");
+
             if (!HttpListener.IsSupported)
             {
                 throw new InvalidOperationException("The HttpListener class is unsupported!  I will not be able to provide Appium with data.");
             }
 
-            HttpListener listener = server.Listener;
-
             try
             {
                 // Start listening for client requests.
-                listener.Start();            
+                this.Listener.Start();
 
-                while(true)
+                while(this.ActiveAndEnabled)
                 {
-                    DoBeginAcceptHttpClient(server);
+                    AcceptContext(this.Listener.GetContext());
                 }
+            }
+            catch (ObjectDisposedException)
+            {
+                // Intentionally not doing anything with the exception.
             }
             catch (Exception e)
             {
-                Console.WriteLine(String.Format("Unknown Exception: {0}", e));
+                Debug.LogException(e);
             }
             finally
             {
                 // Stop listening for new clients.
-                listener.Close();
-                listener.Stop();
+                this.Listener.Stop();
             }
         }
 
@@ -169,15 +140,18 @@ namespace HCP
         
         public HttpListener Listener { get { return m_listener; } }
         public string ListenerURI { get { return m_sListenerURI; } }
+        public bool ActiveAndEnabled { get { return m_bActiveAndEnabled; } }
 
 
 	    /***************************** PRIVATE DATA *****************************/	
         private HttpListener m_listener;
         [SerializeField] private string m_sListenerURI;
         private Thread m_listenerThread;
+        private bool m_bActiveAndEnabled;
 
         protected Dictionary<string, Type> m_requestCommands;
         protected Queue<Job> m_requestJobs;
+
 
 
 
@@ -199,7 +173,9 @@ namespace HCP
             {
                 string actionCommand = data["action"].Value;
                 JSONNode parameters = data["params"];
-                job.Request = (JobRequest)Activator.CreateInstance(m_requestCommands[actionCommand], parameters);
+
+                var actionType = m_requestCommands[actionCommand];
+                job.Request = (JobRequest)Activator.CreateInstance(actionType, parameters);
             }
             else
             {
@@ -216,7 +192,7 @@ namespace HCP
         #region Utility
         private void AddActionHandler(string requestCommand, Type requestType)
         {
-            if(requestType == typeof(JobRequest))
+            if(requestType.IsSubclassOf(typeof(JobRequest)))
             {
                 this.m_requestCommands.Add(requestCommand, requestType);
             }
@@ -235,19 +211,21 @@ namespace HCP
         private void Awake()
 	    {
             // Create request builders
-            this.AddActionHandler("find", typeof(Requests.FindElementRequest));
-            this.AddActionHandler("element:getAttribute", typeof(Requests.GetElementAttributeRequest));
-            this.AddActionHandler("element:setText", typeof(Requests.SetElementTextRequest));
-            this.AddActionHandler("element:getText", typeof(Requests.GetElementTextRequest));
-            this.AddActionHandler("element:click", typeof(Requests.ClickElementRequest));
-            this.AddActionHandler("element:getLocation", typeof(Requests.GetElementLocationRequest));
-            this.AddActionHandler("element:getSize", typeof(Requests.GetElementSizeRequest));
-            this.AddActionHandler("element:touchLongClick", typeof(Requests.TouchLongClickElementRequest));
-            this.AddActionHandler("element:touchDown", typeof(Requests.TouchDownElementRequest));
-            this.AddActionHandler("element:touchUp", typeof(Requests.TouchUpElementRequest));
+            this.m_requestCommands = new Dictionary<string, Type>();
+            this.AddActionHandler("element:clearText", typeof(Requests.ClearElementTextRequest));
             this.AddActionHandler("element:click", typeof(Requests.ClickElementRequest));
             this.AddActionHandler("click", typeof(Requests.ComplexTapRequest)); 
+            this.AddActionHandler("find", typeof(Requests.FindElementRequest));
+            this.AddActionHandler("element:getAttribute", typeof(Requests.GetElementAttributeRequest));
+            this.AddActionHandler("element:getLocation", typeof(Requests.GetElementLocationRequest));
+            this.AddActionHandler("element:getSize", typeof(Requests.GetElementSizeRequest));
+            this.AddActionHandler("element:getText", typeof(Requests.GetElementTextRequest));
             this.AddActionHandler("source", typeof(Requests.PageSourceRequest)); 
+            this.AddActionHandler("element:setText", typeof(Requests.SetElementTextRequest));
+            this.AddActionHandler("element:touchDown", typeof(Requests.TouchDownElementRequest));
+            this.AddActionHandler("element:touchLongClick", typeof(Requests.TouchLongClickElementRequest));
+            this.AddActionHandler("element:touchMove", typeof(Requests.TouchMoveElementRequest));
+            this.AddActionHandler("element:touchUp", typeof(Requests.TouchUpElementRequest));
 
             // Prepare jobs queue
             m_requestJobs = new Queue<Job>();
@@ -257,7 +235,8 @@ namespace HCP
             m_listener.Prefixes.Add(this.ListenerURI + "/alive/");
             m_listener.Prefixes.Add(this.ListenerURI + "/action/");
 
-            m_listenerThread = new Thread( () => Run(this) );
+
+            m_bActiveAndEnabled = true;
 	    }    
 
 	    //////////////////////////////////////////////////////////////////////////
@@ -265,8 +244,24 @@ namespace HCP
 	    //////////////////////////////////////////////////////////////////////////
 	    private void Start()
 	    {
+	    }
+
+        //////////////////////////////////////////////////////////////////////////
+	    /// @brief	
+	    //////////////////////////////////////////////////////////////////////////
+	    private void OnEnable()
+	    {
+            m_listenerThread = new Thread( () => Run() );
             m_listenerThread.Start();
             if(this.Started != null) this.Started();
+	    }
+
+        //////////////////////////////////////////////////////////////////////////
+	    /// @brief	
+	    //////////////////////////////////////////////////////////////////////////
+	    private void OnDisable()
+	    {
+            this.Stop();
 	    }
 
 	    //////////////////////////////////////////////////////////////////////////
@@ -274,14 +269,28 @@ namespace HCP
 	    //////////////////////////////////////////////////////////////////////////
 	    private void Update()
 	    {
+            m_bActiveAndEnabled = this.isActiveAndEnabled;  
+                // Duplicate to access outside of main thread
+
             if(m_requestJobs.Count > 0)
             {
-                Job job = m_requestJobs.Peek();
-                job.Process();
+                var job = m_requestJobs.Peek();
 
-                if(job.IsComplete)
+                try
+                { 
+                    job.Process();
+                }
+                catch(Exception e)
                 {
-                    m_requestJobs.Dequeue();
+                    job.State = Job.EState.ERROR;
+                }
+                finally
+                {
+                    if (job.IsComplete)
+                    {
+                        m_requestJobs.Dequeue();
+                        job.Dispose();
+                    }
                 }
             }
 	    }
@@ -291,8 +300,7 @@ namespace HCP
 	    //////////////////////////////////////////////////////////////////////////
         private void OnDestroy()
         {
-            if(m_listenerThread != null) m_listenerThread.Join();
-            if(this.Stopped != null) this.Stopped();
+            this.Close();
         }
 
         #endregion

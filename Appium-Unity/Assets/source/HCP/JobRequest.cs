@@ -13,14 +13,14 @@ namespace HCP
         private JSONNode m_data;
         protected JSONNode Data { get { return this.m_data; } }
 
-        public JobRequest(string json)
+        public JobRequest(JSONClass json)
         {            
             if(json == null)
             {
                 throw new ArgumentNullException("JobRequest cannot assign null data");
             }
 
-            m_data = JSON.Parse(json);
+            m_data = json;
         }        
 
         public abstract JobResponse Process();
@@ -28,7 +28,7 @@ namespace HCP
         #region Utility
         protected static Element GetElementById(string id)
         {
-            return GameObject.FindObjectsOfType<Element>().First(e => e.Id == id);
+            return Resources.FindObjectsOfTypeAll<Element>().First(e => e.Id == id);
         }
         #endregion
     }

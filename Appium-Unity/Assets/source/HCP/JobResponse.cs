@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using HCP.SimpleJSON;
+using System.Reflection;
 
 namespace HCP
 {
+    
+    public delegate object ArrayEntryFormatter(object item);
+
     public abstract class JobResponse : JSONClass
     {
         // Matches Selenium/WebDriverResult.cs
@@ -170,7 +174,74 @@ namespace HCP
         public EStatus Status
         {
             get { return (EStatus)(this["status"].AsInt); }
-            set { this["status"] = ((int)value).ToString(); }
+            set { this["status"] = String.Format("{0}", (int)value); }
+        }
+
+        public JSONNode Content
+        {
+            get { return this["value"].AsObject; }
+            set { this["value"] = value; }
+        }
+
+        protected JSONClass m_value;
+
+
+        protected JobResponse(string data)
+        {
+            this.Status = EStatus.Success;
+            this.Content = data;
+        }
+
+        protected JobResponse(object data)
+        {
+            this.Status = EStatus.Success;
+
+            JSONClass c = new JSONClass();
+
+            Type type = data.GetType();
+            IList<PropertyInfo> props = new List<PropertyInfo>(type.GetProperties());
+
+            foreach (PropertyInfo prop in props)
+            {
+                object propValue = prop.GetValue(data, null);
+
+                c.Add(prop.Name, prop.GetValue(data, null).ToString());
+            }
+
+            this.Content = c;
+        }
+
+        protected JobResponse(object[] data, ArrayEntryFormatter builder)
+        {
+            this.Status = EStatus.Success;
+
+            JSONArray a = new JSONArray();
+
+            foreach(var item in data)
+            {
+                var formattedItem = item;
+                if(builder != null) formattedItem = builder(item);
+
+                Type type = formattedItem.GetType();
+                IList<PropertyInfo> props = new List<PropertyInfo>(type.GetProperties());
+                JSONClass n = new JSONClass();
+
+                foreach (PropertyInfo prop in props)
+                {
+                    object propValue = prop.GetValue(formattedItem, null);
+
+                    n.Add(prop.Name, prop.GetValue(formattedItem, null).ToString());
+                }
+                a.Add(n);
+            }
+            
+            this.Content = a;
+        }
+
+        protected JobResponse(JSONClass data)
+        {
+            this.Status = EStatus.Success;
+            this.Content = data;
         }
     }
 }
