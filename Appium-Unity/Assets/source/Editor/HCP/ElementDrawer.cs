@@ -32,7 +32,7 @@ public class ElementDrawer : PropertyDrawer
         if (prop.stringValue == "")
         {
             Guid guid = Guid.NewGuid();
-            prop.stringValue = "HCP-" + guid.ToString();
+            prop.stringValue = guid.ToString();
         }
  
         // Place a label so it can't be edited by accident

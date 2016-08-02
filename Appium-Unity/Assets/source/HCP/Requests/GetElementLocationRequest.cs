@@ -17,10 +17,16 @@ namespace HCP.Requests
         {
         }
 
+        public static Vector3 GetLocation(Element element)
+        {
+            Vector3 point = element.transform.TransformPoint(Vector3.zero);
+            return point;
+        }
+
         public override JobResponse Process()
         {
             var element = JobRequest.GetElementById(this.Id);
-            Vector3 point = element.transform.TransformPoint(Vector3.zero);
+            Vector3 point = GetLocation(element);
 
             return Responses.JSONResponse.FromObject(new { x = (int)point.x, y = (int)point.y, z = (int)point.z });
                 // Note that appium has no concept of z, but passing it anyways

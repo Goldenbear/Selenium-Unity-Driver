@@ -17,15 +17,22 @@ namespace HCP.Requests
         {
         }
 
-        public override JobResponse Process()
+        public static Bounds GetBounds(Element element)
         {
-            var element = JobRequest.GetElementById(this.Id);
             var renderer = element.GetComponent<Renderer>();
             var rectTransform = element.GetComponent<RectTransform>();
 
             Bounds bounds = new Bounds();
             if(renderer != null) bounds = renderer.bounds;
             if(rectTransform != null) bounds = new Bounds(Vector3.zero, rectTransform.sizeDelta);
+
+            return bounds;
+        }
+
+        public override JobResponse Process()
+        {
+            var element = JobRequest.GetElementById(this.Id);
+            Bounds bounds = GetBounds(element);
 
             return Responses.JSONResponse.FromObject(new { width = (int)bounds.extents.x, height = (int)bounds.extents.y, depth = (int)bounds.extents.z });
                 // Note that appium has no concept of depth, but passing it anyways

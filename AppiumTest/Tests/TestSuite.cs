@@ -31,7 +31,7 @@ namespace AppiumTests
     public class PMSmokeTestSuite : IDisposable
     {
         private static Uri g_testServerAddress = new Uri(TestServers.Server1);
-        private static int g_commonPort = 14809;
+        private static int g_commonPort = 14811;
         private static AppiumHCPDriver<AppiumWebElement> g_Driver;
        
         private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(360); /* Change this to a more reasonable value */
@@ -376,6 +376,18 @@ namespace AppiumTests
             var driver = constructor();
             WaitforHCP(driver);
             driver.Swipe(500, 500, 1500, 1000, 5000);
+        }
+
+        
+        [Theory, MemberData("OnDevices")]
+        public void CheckPageSource(CreateDriver constructor)
+        {
+            var driver = constructor();
+            WaitforHCP(driver);
+            var source = driver.PageSource;
+            var hcpSource = driver.HCP().PageSource;
+
+            Assert.False(String.IsNullOrEmpty(hcpSource));
         }
     }
 }

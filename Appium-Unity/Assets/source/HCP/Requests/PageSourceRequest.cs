@@ -6,6 +6,10 @@ using HCP;
 using HCP.SimpleJSON;
 using System.Xml;
 
+using UnityEngine;
+using UnityEngine.UI;
+using System.IO;
+
 namespace HCP.Requests
 {
     // Format sample at EOF
@@ -15,9 +19,90 @@ namespace HCP.Requests
         {
         }
 
+        protected static void CompleteChild(GameObject gameObject, XmlDocument xmlDoc, XmlElement parentXmlElement, int index)
+        {
+            var element = gameObject.GetComponent<Element>();
+            var xmlElement = parentXmlElement;
+
+            if(element != null)
+            {
+                var childXmlElement = xmlDoc.CreateElement(element.name);
+                var textComponent = element.GetComponent<Text>();
+                var canvasComponent = element.GetComponent<Canvas>();
+                var buttonComponent = element.GetComponent<Button>();
+                var toggleComponent = element.GetComponent<Toggle>();
+                var dropdownComponent = element.GetComponent<Dropdown>();
+
+                if(canvasComponent != null)
+                {
+                    childXmlElement = xmlDoc.CreateElement(canvasComponent.GetType().FullName);
+                    childXmlElement.SetAttribute("class", canvasComponent.GetType().FullName);
+                }
+                else if(textComponent != null)
+                {
+                    childXmlElement = xmlDoc.CreateElement(textComponent.GetType().FullName);
+                    childXmlElement.SetAttribute("class", textComponent.GetType().FullName);
+                    childXmlElement.SetAttribute("text", textComponent.text);
+                }
+                else if(buttonComponent != null)
+                {
+                    childXmlElement = xmlDoc.CreateElement(buttonComponent.GetType().FullName);
+                    childXmlElement.SetAttribute("class", buttonComponent.GetType().FullName);
+                }
+                else if(toggleComponent != null)
+                {
+                    childXmlElement = xmlDoc.CreateElement(toggleComponent.GetType().FullName);
+                    childXmlElement.SetAttribute("class", toggleComponent.GetType().FullName);
+                    childXmlElement.SetAttribute("checked", toggleComponent.isOn ? "true" : "false");
+                }
+                else if(dropdownComponent != null)
+                {
+                    childXmlElement = xmlDoc.CreateElement(dropdownComponent.GetType().FullName);
+                    childXmlElement.SetAttribute("class", dropdownComponent.GetType().FullName);
+                }
+                childXmlElement.SetAttribute("package", "unity");
+                childXmlElement.SetAttribute("enabled", element.isActiveAndEnabled ? "true" : "false");
+
+                Vector3 point = GetElementLocationRequest.GetLocation(element);
+                Bounds bounds = GetElementSizeRequest.GetBounds(element);
+                
+                childXmlElement.SetAttribute("name", element.name);
+                childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)point.x, (int)point.y, (int)bounds.extents.x, (int)bounds.extents.y));
+                childXmlElement.SetAttribute("resource-id", element.Id);
+                childXmlElement.SetAttribute("index", index.ToString());
+
+                parentXmlElement.AppendChild(childXmlElement);
+                xmlElement = childXmlElement;
+            }
+
+            for(int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                var child = gameObject.transform.GetChild(i);
+                CompleteChild(child.gameObject, xmlDoc, xmlElement, i);
+            }
+
+        }
+
         public override JobResponse Process()
         {
-            throw new NotImplementedException("TODO: Not worth the effort if not going to be used");
+            XmlDocument xmlDoc = new XmlDocument( );
+            GameObject[] roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
+
+            XmlElement xmlElement = xmlDoc.CreateElement("hierarchy");
+            xmlDoc.AppendChild(xmlElement);
+
+            for(int i = 0; i < roots.Length; i++)
+            {
+                CompleteChild(roots[i].gameObject, xmlDoc, xmlElement, i);
+            }
+            
+            using (var stringWriter = new StringWriter())
+            using (var xmlTextWriter = XmlWriter.Create(stringWriter))
+            {
+                xmlDoc.WriteTo(xmlTextWriter);
+                xmlTextWriter.Flush();
+                return new Responses.StringResponse(stringWriter.GetStringBuilder().ToString());
+            }
         }
     }
 }

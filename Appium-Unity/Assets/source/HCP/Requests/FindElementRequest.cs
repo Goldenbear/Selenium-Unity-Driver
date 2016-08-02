@@ -82,7 +82,7 @@ namespace HCP.Requests
                     elementIds = Resources.FindObjectsOfTypeAll<Element>().Where(e => e.GetComponent(type) != null).Select(e => e.Id).ToArray();
                     break;
                 case "xpath":
-                    throw new ArgumentException("FindElement - You cannot find multiple of the same xpath");
+                    throw new NotImplementedException("FindElement - Do not currently support xpath");
 
                 default:
                     throw new ArgumentException("Find strategy type unsupported: " + this.Strategy);

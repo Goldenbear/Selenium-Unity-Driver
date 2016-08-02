@@ -31,7 +31,17 @@ namespace HCP
         [Element]
         [SerializeField]
         protected string m_sUniqueGuid;
-        public string Id { get { return m_sUniqueGuid; } }
+        public string Id { get { return "HCP-" + this.name + "-" + m_sUniqueGuid; } }
+
+        
+        private void Start()
+        {
+            if(this.GetComponents<Element>().Length > 1)
+            {
+                throw new System.Exception("HCP.Element Error - You cannot attach more than Element component to a single game object.");
+            }
+        }
     }
+
 }
 
