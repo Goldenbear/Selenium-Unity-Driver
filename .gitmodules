@@ -31,3 +31,6 @@
 [submodule "Selenium"]
 	path = Selenium
 	url = https://github.com/gopokyo-colinn/selenium
+[submodule "Appium-Dot-App"]
+	path = Appium-Dot-App
+	url = https://github.com/gopokyo-colinn/appium-dot-app
