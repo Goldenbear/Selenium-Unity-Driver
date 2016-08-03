@@ -25,11 +25,14 @@ namespace AppiumTests
     using OpenQA.Selenium.Appium.iOS;
     using System.Collections.Generic;
     using Xunit.Extensions;
+    using Xunit.Abstractions;
+    using System.Reflection;
 
     public delegate AppiumHCPDriver<AppiumWebElement> CreateDriver();
 
     public class PMSmokeTestSuite : IDisposable
     {
+        
         private static Uri g_testServerAddress = new Uri(TestServers.Server1);
         private static int g_commonPort = 14811;
         private static AppiumHCPDriver<AppiumWebElement> g_Driver;
@@ -161,8 +164,37 @@ namespace AppiumTests
             }
         }
 
-        public PMSmokeTestSuite()
+        public static string ImageDirectory { get { return "./screenshots/"; } }
+        public static string ImageHost { get { return "http://127.0.0.1/images/"; } }
+
+        public void WriteScreenshot(string fileName = null)
         {
+            if(fileName == null)
+            {
+                StackTrace st = new StackTrace();
+                StackFrame sf = st.GetFrame(1);
+                MethodBase testMethodName = sf.GetMethod();
+                fileName = testMethodName.ToString();
+            }
+            var fullPath = String.Format("{0}/{1} - {2}.jpg",
+                ImageDirectory,
+                DateTime.Now.ToString("HH:mm:ss tt"),
+                fileName);
+            var urlPath = String.Format("{0}/{1} - {2}.jpg",
+                ImageHost,
+                DateTime.Now.ToString("HH:mm:ss tt"),
+                fileName);
+
+            var screenshot = g_Driver.GetScreenshot();
+            screenshot.SaveAsFile(fullPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+            output.WriteLine(urlPath);
+        }
+        
+        public readonly ITestOutputHelper output;
+
+        public PMSmokeTestSuite(ITestOutputHelper output)
+        {
+            this.output = output;
         }
 
         public void Dispose()
@@ -372,10 +404,12 @@ namespace AppiumTests
         
         [Theory, MemberData("OnDevices")]
         public void CheckSwipeGesture(CreateDriver constructor)
-        {
+        {           
             var driver = constructor();
             WaitforHCP(driver);
             driver.Swipe(500, 500, 1500, 1000, 5000);
+            WriteScreenshot("CheckSwipeGestureColin"); // Explicit filename
+            WriteScreenshot(); // Implicit using stack
         }
 
         
