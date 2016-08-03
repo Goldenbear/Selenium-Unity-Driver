@@ -13,6 +13,8 @@ namespace HCP.Requests
     {
         public string Id { get { return Data["elementId"]; } }
         public string Text { get { return Data["text"]; } }
+        public bool Replace { get { return Data["replace"].AsBool; } }
+        public bool Unicode { get { return Data["unicodeKeyboard"].AsBool; } }
         
         public SetElementTextRequest(JSONClass json) : base(json)
         {
@@ -21,7 +23,20 @@ namespace HCP.Requests
         public override JobResponse Process()
         {
             var element = JobRequest.GetElementById(this.Id);
-            element.GetComponent<Text>().text = this.Text;
+
+            var textItem = element.GetComponent<Text>();
+            var inputItem = element.GetComponent<InputField>();
+
+            if(this.Replace)
+            {
+                if(textItem != null) textItem.text = this.Text;
+                else inputItem.text = this.Text;
+            }
+            else
+            {
+                if(textItem != null) textItem.text += this.Text;
+                else inputItem.text += this.Text;
+            }
 
             return new Responses.StringResponse();
         }

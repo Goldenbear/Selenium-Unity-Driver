@@ -16,13 +16,14 @@ using UnityEngine;																// Unity 			(ref http://docs.unity3d.com/Docum
 namespace HCP
 {
     //////////////////////////////////////////////////////////////////////////
-    /// @brief	UniqueIdentifierAttribute class.  
+    /// @brief	ElementAttribute class.  
     //////////////////////////////////////////////////////////////////////////
     public class ElementAttribute : PropertyAttribute {}
 
     //////////////////////////////////////////////////////////////////////////
-    /// @brief	UniqueId class.  Stores a guid for the component it is 
-    /// attached to.  This isn't editable.
+    /// @brief	Element class.  Stores a guid for the component it is 
+    /// attached to.  This isn't editable.  HCP requires objects to have Element
+    /// components if they wish to be visible to it.
     //////////////////////////////////////////////////////////////////////////
     [AddComponentMenu("HCP/Element")]
     public class Element : MonoBehaviour

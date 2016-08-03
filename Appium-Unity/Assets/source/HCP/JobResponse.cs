@@ -7,9 +7,23 @@ using System.Reflection;
 
 namespace HCP
 {
-    
+    ////////////////////////////////////////////////////////////
+    // @brief Feels a bit hacky, but this delegate is used
+    // for format each array element as a proper object prior
+    // to being transformed into a JSONNode.
+    ////////////////////////////////////////////////////////////
     public delegate object ArrayEntryFormatter(object item);
 
+    ////////////////////////////////////////////////////////////
+    // @brief JobResponses are used to Serialized job results
+    // to JobRequets.  Respones have to primary fields:
+    // Status and Value.  Status tells the server if the job was
+    // successful.  Currenlty, I just send UnknownError or Success.
+    // However, this can be changed by catching exceptions and
+    // setting the status appropriately.
+    // Value is typically a JSON structure in the format that
+    // the appium webdriver/server expects.  
+    ////////////////////////////////////////////////////////////
     public abstract class JobResponse : JSONClass
     {
         // Matches Selenium/WebDriverResult.cs

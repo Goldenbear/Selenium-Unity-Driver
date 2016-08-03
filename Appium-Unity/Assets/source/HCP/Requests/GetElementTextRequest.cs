@@ -22,7 +22,14 @@ namespace HCP.Requests
         {
             var element = JobRequest.GetElementById(this.Id);
 
-            return new Responses.StringResponse(element.GetComponent<Text>().text);
+            var textItem = element.GetComponent<Text>();
+            var inputItem = element.GetComponent<InputField>();
+            string text = "";
+
+            if(textItem != null) text = textItem.text;
+            else text = inputItem.text;
+
+            return new Responses.StringResponse(text);
         }
     }
 }

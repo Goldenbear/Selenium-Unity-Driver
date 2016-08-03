@@ -16,13 +16,25 @@ namespace HCP
 
 
     //////////////////////////////////////////////////////////////////////////
-    /// @brief	Listener class.  Creates a threaded HttpListener to 
+    /// @brief	Server class.  Creates a threaded HttpListener to 
     /// respond to requests to provide Unity GamObject data.  Was originally 
     /// a lighter-weight TCP socket listener, but a Unity bug cause it to be 
     /// redesigned:
     /// 
     /// See: https://issuetracker.unity3d.com/issues/debug-running-project-with-attached-debugger-causes-socket-exception-if-socket-is-in-another-thread
     ///            
+    /// 
+    /// The server spins a new thread and listens for a HTTPRequest.  When its
+    /// received it makes sure its either an alive or action endpoint.
+    /// Alive will always return its alive string, and is used by appium drivers
+    /// to signal that actual HCP commands are ready.  You can also use it to
+    /// determine when Unity is ready.
+    /// Action has a command (cmd) and parameter (params) structure.  Commands
+    /// are simple strings that are matched.  On match, they spawn a Job which 
+    /// has a status, JobRequest, and JobResponse.  Jobs are added to the server
+    /// job queue so that they can execute on the Main thread.  Jobs may take
+    /// several frames to complete.  The server waits for its status to be
+    /// in a complete state prior to responding to the HTTPRequest.
     //////////////////////////////////////////////////////////////////////////
     [AddComponentMenu("HCP/Server")]
     public class Server : MonoBehaviour
@@ -222,6 +234,8 @@ namespace HCP
             this.AddActionHandler("element:getText", typeof(Requests.GetElementTextRequest));
             this.AddActionHandler("source", typeof(Requests.PageSourceRequest)); 
             this.AddActionHandler("element:setText", typeof(Requests.SetElementTextRequest));
+
+            // I don't think these touch handlers are needed.
             this.AddActionHandler("element:touchDown", typeof(Requests.TouchDownElementRequest));
             this.AddActionHandler("element:touchLongClick", typeof(Requests.TouchLongClickElementRequest));
             this.AddActionHandler("element:touchMove", typeof(Requests.TouchMoveElementRequest));

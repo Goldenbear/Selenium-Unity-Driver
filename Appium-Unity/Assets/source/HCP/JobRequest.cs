@@ -8,6 +8,13 @@ using UnityEngine;
 
 namespace HCP
 {
+    ////////////////////////////////////////////////////////////
+    // @brief JobRequests are what they sound like.  They have 
+    // JSON formated data that is used to query against. This
+    // class should be derived from once for each acceptable HCP
+    // action.  These actions are then registerd in the server
+    // object.  See Server.cs/Awake for that process.
+    ////////////////////////////////////////////////////////////
     public abstract class JobRequest
     {
         private JSONNode m_data;

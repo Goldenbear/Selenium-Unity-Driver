@@ -6,6 +6,15 @@ using System.Threading;
 
 namespace HCP
 {
+    ////////////////////////////////////////////////////////////
+    // @brief A job is a useful object that keeps track of state
+    // request, and response data.  Jobs can be waitied for and
+    // each has its own thread signal (ManualResetEvent).
+    // You should call Await in a non-main thread if you want to
+    // wait for the job to be processed in the main thread prior
+    // to continuing code execution.  This design is used in
+    // the Server.cs implementation
+    ////////////////////////////////////////////////////////////
     public class Job : IDisposable
     {
         public enum EState
