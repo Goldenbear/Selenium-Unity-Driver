@@ -49,6 +49,7 @@ namespace AppiumTest.Framework
 
         public void AssignAppiumCapabilities(ref DesiredCapabilities appiumCapabilities)
         {
+
             appiumCapabilities.SetCapability("browserName", this.BrowserName);
             appiumCapabilities.SetCapability("appium-version", this.FwkVersion);
             appiumCapabilities.SetCapability("platformName", this.Platform2String(this.Platform));
