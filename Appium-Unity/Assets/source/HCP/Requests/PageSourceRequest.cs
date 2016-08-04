@@ -70,6 +70,7 @@ namespace HCP.Requests
                 childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)point.x, (int)point.y, (int)bounds.extents.x, (int)bounds.extents.y));
                 childXmlElement.SetAttribute("resource-id", element.Id);
                 childXmlElement.SetAttribute("index", index.ToString());
+                childXmlElement.SetAttribute("isHCP", "true");
 
                 parentXmlElement.AppendChild(childXmlElement);
                 xmlElement = childXmlElement;
