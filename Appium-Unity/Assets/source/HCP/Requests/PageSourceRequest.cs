@@ -71,7 +71,7 @@ namespace HCP.Requests
                 childXmlElement.SetAttribute("resource-id", element.Id);
                 childXmlElement.SetAttribute("index", index.ToString());
                 childXmlElement.SetAttribute("isHCP", "true");
-
+                
                 parentXmlElement.AppendChild(childXmlElement);
                 xmlElement = childXmlElement;
             }
