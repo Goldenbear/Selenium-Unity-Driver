@@ -61,13 +61,14 @@ namespace HCP.Requests
                     childXmlElement.SetAttribute("class", dropdownComponent.GetType().FullName);
                 }
                 childXmlElement.SetAttribute("package", "unity");
-                childXmlElement.SetAttribute("enabled", element.isActiveAndEnabled ? "true" : "false");
+                childXmlElement.SetAttribute("enabled", element.gameObject.activeSelf ? "true" : "false");
+                childXmlElement.SetAttribute("displayed", element.gameObject.activeInHierarchy ? "true" : "false");
 
                 Vector3 point = GetElementLocationRequest.GetLocation(element);
                 Bounds bounds = GetElementSizeRequest.GetBounds(element);
                 
                 childXmlElement.SetAttribute("name", element.name);
-                childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)point.x, (int)point.y, (int)bounds.extents.x, (int)bounds.extents.y));
+                childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)bounds.min.x, (int)bounds.min.y, (int)bounds.max.x, (int)bounds.max.y));
                 childXmlElement.SetAttribute("resource-id", element.Id);
                 childXmlElement.SetAttribute("index", index.ToString());
                 childXmlElement.SetAttribute("isHCP", "true");
