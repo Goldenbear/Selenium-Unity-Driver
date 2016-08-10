@@ -32,14 +32,26 @@ namespace HCP
         [Element]
         [SerializeField]
         protected string m_sUniqueGuid;
-        public string Id { get { return "HCP-" + this.name + "-" + m_sUniqueGuid; } }
+        public string Id { get { return "HCP-" + (this.m_bUnsafe ? "UNSAFE-" : "" ) + this.name + "-" + m_sUniqueGuid; } }
 
-        
+        [SerializeField]
+        [HideInInspector]
+        protected bool m_bUnsafe = true;   // Generated at runtime
+
+        // Reset is called when the user hits the Reset button in the Inspector's 
+        // context menu or when adding the component the first time. This function
+        // is only called in editor mode. Reset is most commonly used to give good 
+        // default values in the inspector.
+        private void Reset()
+        {
+            m_bUnsafe = false;        
+        }
+
         private void Start()
         {
             if(this.GetComponents<Element>().Length > 1)
             {
-                throw new System.Exception("HCP.Element Error - You cannot attach more than Element component to a single game object.");
+                throw new System.Exception("HCP.Element Error - You cannot attach more than one Element component to a single game object.");
             }
         }
     }

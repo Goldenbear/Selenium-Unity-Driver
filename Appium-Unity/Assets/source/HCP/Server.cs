@@ -154,6 +154,8 @@ namespace HCP
         public string ListenerURI { get { return m_sListenerURI; } }
         public bool ActiveAndEnabled { get { return m_bActiveAndEnabled; } }
 
+        public bool AutoAddElementsOnStart = false;
+
 
 	    /***************************** PRIVATE DATA *****************************/	
         private HttpListener m_listener;
@@ -258,6 +260,35 @@ namespace HCP
 	    //////////////////////////////////////////////////////////////////////////
 	    private void Start()
 	    {
+            if(AutoAddElementsOnStart)
+            {
+                // Here we find all element compatible components and add elements to 
+                // them automatically
+                Type[] compatibleTypes =
+                {
+                    typeof(UnityEngine.UI.Text),
+                    typeof(UnityEngine.UI.Button),
+                    typeof(UnityEngine.UI.Toggle),
+                    typeof(UnityEngine.UI.Slider),
+                    typeof(UnityEngine.UI.InputField),
+                    typeof(UnityEngine.Canvas),
+                };
+
+                compatibleTypes.All(type =>
+                {
+                    Resources.FindObjectsOfTypeAll(type).All(o =>
+                    {
+                        var c = (Component)o;
+
+                        if(c.GetComponent<Element>() == null)
+                        {
+                            var e = c.gameObject.AddComponent<Element>();
+                        }
+                        return true;
+                    });
+                    return true;
+                });
+            }
 	    }
 
         //////////////////////////////////////////////////////////////////////////

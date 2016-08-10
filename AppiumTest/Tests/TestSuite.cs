@@ -29,277 +29,20 @@ namespace AppiumTests
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-    public delegate AppiumHCPDriver<AppiumWebElement> CreateDriver();
-    
-    public class PMSmokeTestSuite : IDisposable
+    public class PMSmokeTestSuite : TestSuite
     {
-        private static Uri APPIUM_SERVER_URI = new Uri(TestServers.Server1);
-        private static int HCP_PORT = 14812;
-        private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(360); /* Change this to a more reasonable value */
-        private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10); /* Change this to a more reasonable value */
-        private static TimeSpan HCP_TIMEOUT_SEC = TimeSpan.FromSeconds(100); /* Change this to a more reasonable value */
-        
-        
-        ////////////////////////////////////////////////////////////
-        // @brief This driver is used to communicate with Appium. You
-        // must close this properly or the server will be in an error
-        // state.  This is done in Dispose.
-        ////////////////////////////////////////////////////////////
-        private static AppiumHCPDriver<AppiumWebElement> g_Driver;
+        // Unfortnately these need to be static
+        public static new IEnumerable<object[]> OnDevices { get; } = TestSuite.OnDevices;
+        public static new IEnumerable<object[]> WithBootstrap { get; } = TestSuite.WithBootstrap;
+         
 
-
-        #region Driver Construction - Used to initialize Appium
-        ////////////////////////////////////////////////////////////
-        // @brief Non-HCP sample to pull data and do sanity tests.
-        ////////////////////////////////////////////////////////////
-        private static AppiumHCPDriver<AppiumWebElement> ConstructBootstrap()
+        public PMSmokeTestSuite(ITestOutputHelper output) : base(output)
+            // Dependency injection from xUnit     ^^^^
         {
-            if(g_Driver == null)
-            {
-                DesiredCapabilities capabilities = new DesiredCapabilities();
-                
-                TestCapabilities capabilties = new TestCapabilities();
-                capabilties.App = "./ContactManager.apk";
-                capabilties.AutoWebView = false; 
-                capabilties.AutomationName = "ContactManager";
-                capabilties.BrowserName = String.Empty; // Leave empty otherwise you test on browsers
-                capabilties.DeviceName = "Android";
-                capabilties.FwkVersion = "1.0"; // Not really needed
-                capabilties.Platform = TestCapabilities.DevicePlatform.Android; // Or IOS
-                capabilties.PlatformVersion = String.Empty; // Not really needed
-                capabilties.SupportsHCP = false;
-                capabilties.HCPHost = "http://127.0.0.1";
-                capabilties.HCPPort = HCP_PORT;
-
-                capabilties.AssignAppiumCapabilities(ref capabilities);
-
-                AppiumHCPDriver<AppiumWebElement> driver = new AndroidDriver<AppiumWebElement>(APPIUM_SERVER_URI, capabilities, INIT_TIMEOUT_SEC);
-                driver.Manage().Timeouts().ImplicitlyWait(IMPLICIT_TIMEOUT_SEC);
-
-                g_Driver = driver;
-            }
-
-            return g_Driver;
         }
 
-        ////////////////////////////////////////////////////////////
-        // @brief Constructs an Android driver looking for minimal.apk
-        ////////////////////////////////////////////////////////////
-        private static AppiumHCPDriver<AppiumWebElement> ConstructAndroid()
-        {
-            if(g_Driver == null)
-            {
-                DesiredCapabilities capabilities = new DesiredCapabilities();
-                
-                TestCapabilities capabilties = new TestCapabilities();
-                capabilties.App = "./minimal.apk";
-                capabilties.AutoWebView = false; 
-                capabilties.AutomationName = "minimal";
-                capabilties.BrowserName = String.Empty; // Leave empty otherwise you test on browsers
-                capabilties.DeviceName = "Android";
-                capabilties.FwkVersion = "1.0"; // Not really needed
-                capabilties.Platform = TestCapabilities.DevicePlatform.Android; // Or IOS
-                capabilties.PlatformVersion = String.Empty; // Not really needed
-                capabilties.SupportsHCP = true;
-                capabilties.HCPHost = "http://127.0.0.1";
-                capabilties.HCPPort = HCP_PORT;
-
-                capabilties.AssignAppiumCapabilities(ref capabilities);
-
-                AppiumHCPDriver<AppiumWebElement> driver = new AndroidDriver<AppiumWebElement>(APPIUM_SERVER_URI, capabilities, INIT_TIMEOUT_SEC);
-                driver.Manage().Timeouts().ImplicitlyWait(IMPLICIT_TIMEOUT_SEC);
-
-                g_Driver = driver;
-            }
-
-            return g_Driver;
-        }
-
-        ////////////////////////////////////////////////////////////
-        // @brief Constructs an iOS driver looking for minimal.apk.
-        // Only works on OSX
-        ////////////////////////////////////////////////////////////
-        private static AppiumHCPDriver<AppiumWebElement> ConstructIOS()
-        {
-            #if __MonoCS__
-
-                if(g_Driver == null)
-                {
-                    DesiredCapabilities capabilities = new DesiredCapabilities();
-                
-                    TestCapabilities capabilties = new TestCapabilities();
-                    capabilties.App = "./minimal.ipa";
-                    capabilties.AutoWebView = false; 
-                    capabilties.AutomationName = "minimal";
-                    capabilties.BrowserName = String.Empty; // Leave empty otherwise you test on browsers
-                    capabilties.DeviceName = "iOS";
-                    capabilties.FwkVersion = "1.0"; // Not really needed
-                    capabilties.Platform = TestCapabilities.DevicePlatform.IOS; // Or IOS
-                    capabilties.PlatformVersion = String.Empty; // Not really needed
-                    capabilties.SupportsHCP = true;
-                    capabilties.HCPHost = "http://127.0.0.1";
-                    capabilties.HCPPort = g_commonPort;
-
-                    capabilties.AssignAppiumCapabilities(ref capabilities);
-
-                    AppiumHCPDriver<AppiumWebElement> driver = new IOSDriver<AppiumWebElement>(testServerAddress, capabilities, INIT_TIMEOUT_SEC);
-                    driver.Manage().Timeouts().ImplicitlyWait(IMPLICIT_TIMEOUT_SEC);
-
-                    g_Driver = driver;
-                }
-            #else 
-            #endif
-                
-            return g_Driver;
-        }
-        #endregion
-
-        #region Test Parameters - Driver Lists
-        ////////////////////////////////////////////////////////////
-        // @brief This is the format required to pass data in 
-        // property form to our unit tests.  Note that this does not
-        // return the driver itself because Visual Studio test panels
-        // create the drivers repeatedly and break the server
-        ////////////////////////////////////////////////////////////
-        public static IEnumerable<object[]> OnDevices
-        {
-            get
-            {
-                // Or this could read from a file. :)
-                return new[]
-                {
-                    new CreateDriver[] { ConstructAndroid },
-                    #if __MonoCS__
-                        new CreateDriver[] { ConstructIOS }
-                    #else 
-                    #endif
-                };
-            }
-        }
-
-        ////////////////////////////////////////////////////////////
-        // @brief A driver just for non-HCP Android tests.
-        ////////////////////////////////////////////////////////////
-        public static IEnumerable<object[]> WithBootstrap
-        {
-            get
-            {
-                // Or this could read from a file. :)
-                return new[]
-                {
-                    new CreateDriver[] { ConstructBootstrap },
-                };
-            }
-        }
-        #endregion
-
-
-        #region Screenshots
-        private static string IMAGE_DIRECTORY { get { return "screenshots"; } }
-        private static string IMAGE_HOST { get { return "http://127.0.0.1/images/"; } }
-
-        private static string MakeValidFilename(string fileName)
-        {
-            foreach (char c in System.IO.Path.GetInvalidFileNameChars())
-            {
-               fileName = fileName.Replace(c, '_');
-            }
-
-            return fileName;
-        }
-
-        ////////////////////////////////////////////////////////////
-        // @brief Creates a jpg and saves it to disk.  Will have a 
-        // useful filename is called directly from a unit test.
-        // Otherwise its function name guess in the stack will be off.
-        // Spits out a sample URL for web access to the screenshots
-        // When used in conjunction with IssueCommand, you will get
-        // a detailed log.
-        ////////////////////////////////////////////////////////////
-        private void WriteScreenshot(string fileName = null)
-        {
-            System.IO.Directory.CreateDirectory(IMAGE_DIRECTORY);
-
-            if(fileName == null)
-            {
-                StackTrace st = new StackTrace();
-                StackFrame sf = st.GetFrame(1);
-                MethodBase testMethodName = sf.GetMethod();
-                fileName = testMethodName.Name;
-            }
-
-            fileName = MakeValidFilename(fileName);
-            var fullPath = String.Format("{0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg",
-                IMAGE_DIRECTORY,
-                fileName,
-                DateTime.Now);
-            var urlPath = String.Format("{0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg",
-                IMAGE_HOST,
-                fileName,
-                DateTime.Now);
-
-            var screenshot = g_Driver.GetScreenshot();
-            screenshot.SaveAsFile(fullPath, System.Drawing.Imaging.ImageFormat.Jpeg);
-            m_output.WriteLine(urlPath);
-        }
-        #endregion
-
-        #region Report Logging
-        ////////////////////////////////////////////////////////////
-        // @brief xUnit output is injected automatically.  You can
-        // tie this is with jerkins using the available plugin:
-        // https://wiki.jenkins-ci.org/display/JENKINS/xUnit+Plugin
-        ////////////////////////////////////////////////////////////
-        public readonly ITestOutputHelper m_output;
-
-        public void IssueCommand(string comment, Action command)
-        {
-            m_output.WriteLine(comment);
-            command();
-        }
-
-        public object IssueCommand(string comment, Func<object> command)
-        {
-            m_output.WriteLine(comment);
-            return command();
-        }
-
-        public PMSmokeTestSuite(ITestOutputHelper output)
-        {
-            this.m_output = output;
-        }
-        #endregion
-
-        #region Cleanup
-        public void Dispose()
-        {
-            if(g_Driver != null)
-            {
-                g_Driver.Quit(); // Always quit, if you don't, next test session will fail
-                g_Driver = null;
-            }
-        }
-        #endregion
 
         #region Test Helpers 
-        ////////////////////////////////////////////////////////////
-        // @brief Illustrates how you can wait for something to be
-        // complete piror to continuing in the test.  Here, we have
-        // a sample that waits until HCP is ready, which internally
-        // returns a test method to see if a specific bool is true.
-        // Note that wait until still obeys timeouts specified in
-        // driver construction. This is a better approach to sleeping
-        // the thread of execution as you will continue as soon as its
-        // ready, rather than waiting a fixed amount of time.
-        ////////////////////////////////////////////////////////////
-        private void WaitforHCP(AppiumHCPDriver<AppiumWebElement> driver)
-        {
-            WebDriverWait wait = new WebDriverWait(driver, HCP_TIMEOUT_SEC);
-            bool result = wait.Until<bool>(ExpectedHCPConditions.HCPReady());
-
-            Assert.Equal(result, true);
-        } 
-
         ////////////////////////////////////////////////////////////
         // @brief Returns the first element found with the name  
         // "Image".  Take special note of the HCP() call.  This call
@@ -327,6 +70,8 @@ namespace AppiumTests
             return IssueCommand("Looking for Button", () => { return driver.HCP().FindElementByName("Button"); }) as AppiumWebElement;
         }
         #endregion
+
+
 
         #region Tests
 
