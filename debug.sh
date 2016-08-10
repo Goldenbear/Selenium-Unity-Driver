@@ -1,5 +1,4 @@
-#!/bin/bash
-
 export ANDROID_HOME=~/Library/Android/sdk
 cd Appium
-node .
+node-debug build/lib/main.js
+cd ..

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rm -Rf Appium/node_modules/Appium*
+rm -Rf Appium/node_modules/appium*

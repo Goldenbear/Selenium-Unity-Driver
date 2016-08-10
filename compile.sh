@@ -27,3 +27,4 @@ npm install gulp
 npm install appium-gulp-plugins
 cd ../Appium
 npm install
+cd ../
