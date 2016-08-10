@@ -115,7 +115,7 @@ namespace AppiumTest.Framework
         private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(360); /* Change this to a more reasonable value */
         private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10); /* Change this to a more reasonable value */
         private static TimeSpan HCP_TIMEOUT_SEC = TimeSpan.FromSeconds(100); /* Change this to a more reasonable value */
-        private static string APP_PATH = "minimal"; // NO EXTENSION
+        private static string APP_PATH = "./minimal"; // NO EXTENSION
 
         ////////////////////////////////////////////////////////////
         // @brief This driver is used to communicate with Appium. You
@@ -322,8 +322,8 @@ namespace AppiumTest.Framework
                 // Or this could read from a file. :)
                 return new[]
                 {
-                    new CreateDriver[] { ConstructAndroid },
-                  //  new CreateDriver[] { ConstructIOS }
+                    //new CreateDriver[] { ConstructAndroid },
+                  new CreateDriver[] { ConstructIOS }
                 };
             }
         }
