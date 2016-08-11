@@ -68,7 +68,7 @@ namespace HCP.Requests
                 Bounds bounds = GetElementSizeRequest.GetBounds(element);
                 
                 childXmlElement.SetAttribute("name", element.name);
-                childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)bounds.min.x, (int)bounds.min.y, (int)bounds.max.x, (int)bounds.max.y));
+                childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)point.x, Screen.height - (int)point.y, (int)bounds.extents.x*2, (int)bounds.extents.y*2));
                 childXmlElement.SetAttribute("resource-id", element.Id);
                 childXmlElement.SetAttribute("index", index.ToString());
                 childXmlElement.SetAttribute("isHCP", "true");
