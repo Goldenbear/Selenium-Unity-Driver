@@ -73,7 +73,7 @@ namespace HCP.Requests
                 if(rectTransform != null)
                 {
                     point.x -= bounds.extents.x*2 * rectTransform.pivot.x;
-                    point.y -= bounds.extents.y*2 * rectTransform.pivot.y;
+                    point.y += bounds.extents.y*2 * rectTransform.pivot.y;
                 }
 
                 childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)point.x, Screen.height - (int)point.y, (int)bounds.extents.x*2, (int)bounds.extents.y*2));
