@@ -104,7 +104,8 @@ namespace AppiumTest.Framework
     // @brief A delegate used to create drivers as needed
     ////////////////////////////////////////////////////////////
     public delegate AppiumHCPDriver<AppiumWebElement> CreateDriver();
-    
+    public delegate void IssueCommandCommand();
+
     public abstract class TestSuite : IDisposable
         // DevNote: There is a lot of details here, so I chose to group vars and 
         // methods by purpose so that you might better digest what is going on.
@@ -186,7 +187,7 @@ namespace AppiumTest.Framework
         ////////////////////////////////////////////////////////////
         protected readonly ITestOutputHelper m_output;
 
-        protected void IssueCommand(string comment, Action command)
+        protected void IssueCommand(string comment, IssueCommandCommand command)
         {
             m_output.WriteLine(comment);
             command();

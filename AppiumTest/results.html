@@ -1,0 +1,379 @@
+﻿<?xml version="1.0" encoding="utf-8"?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html>
+  <head>
+    <title>xUnit.net Test Results</title>
+    <style type="text/css">
+          body { font-family: Calibri, Verdana, Arial, sans-serif; background-color: White; color: Black; }
+          h2,h3,h4,h5 { margin: 0; padding: 0; }
+          h3 { font-weight: normal; }
+          h4 { margin: 0.5em 0; }
+          h5 { font-weight: normal; font-style: italic; margin-bottom: 0.75em; }
+          h6 { font-size: 0.9em; font-weight: bold; margin: 0.5em 0 0 0.75em; padding: 0; }
+          pre,table { font-family: Consolas; font-size: 0.8em; margin: 0 0 0 1em; padding: 0; }
+          table { padding-bottom: 0.25em; }
+          th { padding: 0 0.5em; border-right: 1px solid #bbb; text-align: left; }
+          td { padding-left: 0.5em; }
+          .divided { border-top: solid 1px #f0f5fa; padding-top: 0.5em; }
+          .row, .altrow { padding: 0.1em 0.3em; }
+          .row { background-color: #f0f5fa; }
+          .altrow { background-color: #e1ebf4; }
+          .success, .failure, .skipped { font-family: Arial Unicode MS; font-weight: normal; float: left; width: 1em; display: block; }
+          .success { color: #0c0; }
+          .failure { color: #c00; }
+          .skipped { color: #cc0; }
+          .timing { float: right; }
+          .indent { margin: 0.25em 0 0.5em 2em; }
+          .clickable { cursor: pointer; }
+          .testcount { font-size: 85%; }
+        </style>
+    <script language="javascript">
+          function ToggleClass(id) {
+            var elem = document.getElementById(id);
+            if (elem.style.display == "none") {
+              elem.style.display = "block";
+            }
+            else {
+              elem.style.display = "none";
+            }
+          }
+        </script>
+  </head>
+  <body>
+    <h3 class="divided">
+      <b>Assemblies Run</b>
+    </h3>
+    <div>h:\Projects\Appium-Unity\Project\hutch\AppiumTest\bin\Debug\AppiumTest.DLL</div>
+    <h3 class="divided">
+      <b>Summary</b>
+    </h3>
+    <div>
+          Tests run: <a href="#all"><b>21</b></a>  
+          
+            Failures: <a href="#failures"><b>7</b></a>,
+          
+          Run time: <b>739.382s</b></div>
+    <br />
+    <h2>
+      <a id="failures" />Failed tests
+          </h2>
+    <div class="row">
+      <span class="timing">0.227802s
+        </span>
+      <span class="failure">✘</span>
+       Add two numbers<br clear="all" /><pre>TechTalk.SpecFlow.SpecFlowException : Test pending: One or more step definitions are not implemented yet.\r\n  MyTestsSteps.GivenIHaveEnteredIntoTheCalculator(50)</pre><pre>   at TechTalk.SpecFlow.UnitTestProvider.XUnitRuntimeProvider.TestPending(String message)
+   at AppiumTest.MyTestsFeature.ScenarioCleanup()
+   at AppiumTest.MyTestsFeature.AddTwoNumbers() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\MyTests.feature:line 11</pre><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>FeatureTitle</th><td>MyTests</td></tr><tr><th>Description</th><td>Add two numbers</td></tr><tr><th>Category</th><td>mytag</td></tr></table></div>
+    <div class="altrow">
+      <span class="timing">0.3498478s
+        </span>
+      <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.Bootstrap_CheckFindAll(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructBootstrap(), Target = null })<br clear="all" /><pre>System.InvalidOperationException : An unknown server-side error occurred while processing the command. Original error: Could not find adb Please set the ANDROID_HOME environment variable with the Android SDK root directory path.</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1271
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.Android.AndroidDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Android\AndroidDriver.cs:line 121
+   at AppiumTest.Framework.TestSuite.ConstructBootstrap() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 233
+   at AppiumTests.PMSmokeTestSuite.Bootstrap_CheckFindAll(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 268</pre></div>
+    <div class="row">
+      <span class="timing">21.0040523s
+        </span>
+      <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckButtonEnabled(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : Unexpected error. System.Net.WebException: Unable to connect to the remote server ---&gt; System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 192.168.1.13:4723\r\n   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)\r\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket&amp; socket, IPAddress&amp; address, ConnectSocketState state, IAsyncResult asyncResult, Exception&amp; exception)\r\n   --- End of inner exception stack trace ---\r\n   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86\r\n   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1317
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckButtonEnabled(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 340</pre></div>
+    <div class="altrow">
+      <span class="timing">21.1303577s
+        </span>
+      <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckFindButton(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : Unexpected error. System.Net.WebException: Unable to connect to the remote server ---&gt; System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 192.168.1.13:4723\r\n   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)\r\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket&amp; socket, IPAddress&amp; address, ConnectSocketState state, IAsyncResult asyncResult, Exception&amp; exception)\r\n   --- End of inner exception stack trace ---\r\n   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86\r\n   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1317
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckFindButton(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 135</pre></div>
+    <div class="row">
+      <span class="timing">360.193092s
+        </span>
+      <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckFindButtons(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : The HTTP request to the remote WebDriver server for URL http://192.168.1.13:4723/wd/hub/session timed out after 360 seconds.\r\n---- System.Net.WebException : The request was aborted: The operation has timed out.</pre><pre>   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckFindButtons(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 257
+----- Inner Stack Trace -----
+   at System.Net.HttpWebRequest.GetResponse()
+   at OpenQA.Selenium.Remote.HttpCommandExecutor.CreateResponse(WebRequest request) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\HttpCommandExecutor.cs:line 162</pre></div>
+    <div class="altrow">
+      <span class="timing">21.003335s
+        </span>
+      <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckImageEnabled(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : Unexpected error. System.Net.WebException: Unable to connect to the remote server ---&gt; System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 192.168.1.13:4723\r\n   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)\r\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket&amp; socket, IPAddress&amp; address, ConnectSocketState state, IAsyncResult asyncResult, Exception&amp; exception)\r\n   --- End of inner exception stack trace ---\r\n   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86\r\n   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1317
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckImageEnabled(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 370</pre></div>
+    <div class="row">
+      <span class="timing">21.0023074s
+        </span>
+      <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckSwipeGesture(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : Unexpected error. System.Net.WebException: Unable to connect to the remote server ---&gt; System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 192.168.1.13:4723\r\n   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)\r\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket&amp; socket, IPAddress&amp; address, ConnectSocketState state, IAsyncResult asyncResult, Exception&amp; exception)\r\n   --- End of inner exception stack trace ---\r\n   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86\r\n   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1317
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckSwipeGesture(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 87</pre></div>
+    <br />
+    <h2>
+      <a id="all" />All tests
+        </h2>
+    <h5>Click test class name to expand/collapse test details</h5>
+    <h3>
+      <span class="timing">0.228s
+            </span>
+      <span class="clickable" onclick="ToggleClass('classID0EYF')" ondblclick="ToggleClass('classID0EYF')">
+        <span class="failure">✘</span>
+               AppiumTest.MyTestsFeature
+               <span class="testcount">
+                (1 test)
+              </span></span>
+      <br clear="all" />
+    </h3>
+    <div class="indent" id="classID0EYF">
+      <div class="row">
+        <span class="timing">0.227802s
+        </span>
+        <span class="failure">✘</span>
+       Add two numbers<br clear="all" /><pre>TechTalk.SpecFlow.SpecFlowException : Test pending: One or more step definitions are not implemented yet.\r\n  MyTestsSteps.GivenIHaveEnteredIntoTheCalculator(50)</pre><pre>   at TechTalk.SpecFlow.UnitTestProvider.XUnitRuntimeProvider.TestPending(String message)
+   at AppiumTest.MyTestsFeature.ScenarioCleanup()
+   at AppiumTest.MyTestsFeature.AddTwoNumbers() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\MyTests.feature:line 11</pre><h6>Traits:</h6><table cellspacing="0" cellpadding="0"><tr><th>FeatureTitle</th><td>MyTests</td></tr><tr><th>Description</th><td>Add two numbers</td></tr><tr><th>Category</th><td>mytag</td></tr></table></div>
+    </div>
+    <h3>
+      <span class="timing">739.006s
+            </span>
+      <span class="clickable" onclick="ToggleClass('classID0EY')" ondblclick="ToggleClass('classID0EY')">
+        <span class="failure">✘</span>
+               AppiumTests.PMSmokeTestSuite
+               <span class="testcount">
+                (20 tests)
+              </span></span>
+      <br clear="all" />
+    </h3>
+    <div class="indent" id="classID0EY">
+      <div class="row">
+        <span class="timing">0.3498478s
+        </span>
+        <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.Bootstrap_CheckFindAll(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructBootstrap(), Target = null })<br clear="all" /><pre>System.InvalidOperationException : An unknown server-side error occurred while processing the command. Original error: Could not find adb Please set the ANDROID_HOME environment variable with the Android SDK root directory path.</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1271
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.Android.AndroidDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Android\AndroidDriver.cs:line 121
+   at AppiumTest.Framework.TestSuite.ConstructBootstrap() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 233
+   at AppiumTests.PMSmokeTestSuite.Bootstrap_CheckFindAll(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 268</pre></div>
+      <div class="altrow">
+        <span class="timing">20.2965464s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckButtonDisplayed(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>Looking for Button
+	  <A HREF="bin/Debug/screenshots/CheckButtonDisplayed - 2016-08-10_11-02-24-PM.jpg">
+<IMG HEIGHT=700 WIDTH=400 SRC="bin/Debug/screenshots/CheckButtonDisplayed - 2016-08-10_11-02-24-PM.jpg"></A>
+</pre></div>
+      <div class="row">
+        <span class="timing">21.0040523s
+        </span>
+        <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckButtonEnabled(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : Unexpected error. System.Net.WebException: Unable to connect to the remote server ---&gt; System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 192.168.1.13:4723\r\n   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)\r\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket&amp; socket, IPAddress&amp; address, ConnectSocketState state, IAsyncResult asyncResult, Exception&amp; exception)\r\n   --- End of inner exception stack trace ---\r\n   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86\r\n   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1317
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckButtonEnabled(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 340</pre></div>
+      <div class="altrow">
+        <span class="timing">14.3857499s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckButtonLocation(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>Looking for Button
+</pre></div>
+      <div class="row">
+        <span class="timing">14.0382422s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckButtonSize(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>Looking for Button
+</pre></div>
+      <div class="altrow">
+        <span class="timing">22.0465645s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckClickButton(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>http://127.0.0.1/images//CheckClickButton - 2016-08-10_11-04-34-PM.jpg
+Looking for Button
+Looking for Image
+http://127.0.0.1/images//CheckClickButton - 2016-08-10_11-04-39-PM.jpg
+</pre></div>
+      <div class="row">
+        <span class="timing">13.9657067s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckDriverContext(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">33.2539276s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckEnterText(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">21.1303577s
+        </span>
+        <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckFindButton(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : Unexpected error. System.Net.WebException: Unable to connect to the remote server ---&gt; System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 192.168.1.13:4723\r\n   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)\r\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket&amp; socket, IPAddress&amp; address, ConnectSocketState state, IAsyncResult asyncResult, Exception&amp; exception)\r\n   --- End of inner exception stack trace ---\r\n   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86\r\n   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1317
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckFindButton(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 135</pre></div>
+      <div class="altrow">
+        <span class="timing">360.193092s
+        </span>
+        <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckFindButtons(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : The HTTP request to the remote WebDriver server for URL http://192.168.1.13:4723/wd/hub/session timed out after 360 seconds.\r\n---- System.Net.WebException : The request was aborted: The operation has timed out.</pre><pre>   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckFindButtons(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 257
+----- Inner Stack Trace -----
+   at System.Net.HttpWebRequest.GetResponse()
+   at OpenQA.Selenium.Remote.HttpCommandExecutor.CreateResponse(WebRequest request) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\HttpCommandExecutor.cs:line 162</pre></div>
+      <div class="row">
+        <span class="timing">43.0021948s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckFindImage(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>Looking for Image
+</pre></div>
+      <div class="altrow">
+        <span class="timing">13.7470013s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckFindImages(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">14.050111s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckFindTags(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /></div>
+      <div class="altrow">
+        <span class="timing">13.7655614s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckHCPEnvironment(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /></div>
+      <div class="row">
+        <span class="timing">38.7755831s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckHoldButton(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>Looking for Button
+http://127.0.0.1/images//CheckHoldButton - 2016-08-10_11-03-01-PM.jpg
+http://127.0.0.1/images//CheckHoldButton - 2016-08-10_11-03-18-PM.jpg
+</pre></div>
+      <div class="altrow">
+        <span class="timing">17.8672336s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckImageDisplayed(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>Looking for Image
+http://127.0.0.1/images//CheckImageDisplayed - 2016-08-10_11-01-32-PM.jpg
+</pre></div>
+      <div class="row">
+        <span class="timing">21.003335s
+        </span>
+        <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckImageEnabled(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : Unexpected error. System.Net.WebException: Unable to connect to the remote server ---&gt; System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 192.168.1.13:4723\r\n   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)\r\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket&amp; socket, IPAddress&amp; address, ConnectSocketState state, IAsyncResult asyncResult, Exception&amp; exception)\r\n   --- End of inner exception stack trace ---\r\n   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86\r\n   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1317
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckImageEnabled(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 370</pre></div>
+      <div class="altrow">
+        <span class="timing">14.7133758s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckPageSource(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>Waiting for HCP
+Asking for page source
+Asking for hcp page source
+</pre></div>
+      <div class="row">
+        <span class="timing">20.4156064s
+        </span>
+        <span class="success">✔</span>
+       AppiumTests.PMSmokeTestSuite.CheckSetText(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><h6>Output:</h6><pre>http://127.0.0.1/images//CheckSetText - 2016-08-10_11-04-57-PM.jpg
+</pre></div>
+      <div class="altrow">
+        <span class="timing">21.0023074s
+        </span>
+        <span class="failure">✘</span>
+       AppiumTests.PMSmokeTestSuite.CheckSwipeGesture(constructor: CreateDriver { Method = OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1[OpenQA.Selenium.Appium.AppiumWebElement] ConstructIOS(), Target = null })<br clear="all" /><pre>OpenQA.Selenium.WebDriverException : Unexpected error. System.Net.WebException: Unable to connect to the remote server ---&gt; System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 192.168.1.13:4723\r\n   at System.Net.Sockets.Socket.DoConnect(EndPoint endPointSnapshot, SocketAddress socketAddress)\r\n   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket&amp; socket, IPAddress&amp; address, ConnectSocketState state, IAsyncResult asyncResult, Exception&amp; exception)\r\n   --- End of inner exception stack trace ---\r\n   at OpenQA.Selenium.Appium.Service.AppiumCommandExecutor.Execute(Command commandToExecute) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\Service\AppiumCommandExecutor.cs:line 86\r\n   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1060</pre><pre>   at OpenQA.Selenium.Remote.RemoteWebDriver.UnpackAndThrowOnError(Response errorResponse) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1317
+   at OpenQA.Selenium.Remote.RemoteWebDriver.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1070
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1.Execute(String driverCommandToExecute, Dictionary`2 parameters) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 136
+   at OpenQA.Selenium.Remote.RemoteWebDriver.StartSession(ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 1038
+   at OpenQA.Selenium.Remote.RemoteWebDriver..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Selenium\dotnet\src\webdriver\Remote\RemoteWebDriver.cs:line 118
+   at OpenQA.Selenium.Appium.AppiumDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\AppiumDriver.cs:line 46
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(ICommandExecutor commandExecutor, ICapabilities desiredCapabilities) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 20
+   at OpenQA.Selenium.Appium.HCP.AppiumHCPDriver`1..ctor(Uri remoteAddress, ICapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\HCP\AppiumHCPDriver.cs:line 92
+   at OpenQA.Selenium.Appium.iOS.IOSDriver`1..ctor(Uri remoteAddress, DesiredCapabilities desiredCapabilities, TimeSpan commandTimeout) in H:\Projects\Appium-Unity\Project\hutch\Appium-DotNet-Driver\appium-dotnet-driver\Appium\iOS\IOSDriver.cs:line 107
+   at AppiumTest.Framework.TestSuite.ConstructIOS() in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Framework.cs:line 300
+   at AppiumTests.PMSmokeTestSuite.CheckSwipeGesture(CreateDriver constructor) in H:\Projects\Appium-Unity\Project\hutch\AppiumTest\Tests\TestSuite.cs:line 87</pre></div>
+    </div>
+  </body>
+</html>
