@@ -4,6 +4,8 @@ using AppiumTest.Framework;
 using Xunit;
 using System.Diagnostics;
 
+using TechTalk.SpecFlow.Tracing;
+
 namespace AppiumTest
 {
     [Binding]
@@ -38,7 +40,8 @@ namespace AppiumTest
             // The trace here is a bit awkward, but the TakeScreenshot
             // function returns a string denoting where it is stored.
             // So this will print that location directly to our log.
-            Trace.WriteLine(TestFramework.TakeScreenshot());
+            string url = TestFramework.TakeScreenshot();
+            DefaultListener.xUnitOutput.WriteLine(url);            
         }
     }
 }
