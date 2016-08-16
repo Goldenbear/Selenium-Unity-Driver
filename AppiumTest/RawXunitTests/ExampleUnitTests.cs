@@ -29,17 +29,81 @@ namespace AppiumTests
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-    public class ExampleUnitTests : TestSuite
+    public class ExampleUnitTests : IDisposable
     {
-        // Unfortnately these need to be static
-        public static new IEnumerable<object[]> OnDevices { get; } = TestSuite.OnDevices;
-        public static new IEnumerable<object[]> WithBootstrap { get; } = TestSuite.WithBootstrap;
-         
+        #region Test Parameters - Manual Driver Lists
+        ////////////////////////////////////////////////////////////
+        // @brief This is the format required to pass data in 
+        // property form to our unit tests.  Note that this does not
+        // return the driver itself because Visual Studio test panels
+        // create the drivers repeatedly and break the server
+        ////////////////////////////////////////////////////////////
+        public static IEnumerable<object[]> OnDevices
+        {
+            get
+            {
+                // Or this could read from a file. :)
+                return new[]
+                {
+                    new CreateDriver[] { TestFramework.ConstructAndroidDriver },
+                    new CreateDriver[] { TestFramework.ConstructIOSDriver }
+                };
+            }
+        }
 
-        public ExampleUnitTests(ITestOutputHelper output) : base(output)
+        ////////////////////////////////////////////////////////////
+        // @brief A driver just for non-HCP Android tests.
+        ////////////////////////////////////////////////////////////
+        public static IEnumerable<object[]> WithBootstrap
+        {
+            get
+            {
+                // Or this could read from a file. :)
+                return new[]
+                {
+                    new CreateDriver[] { TestFramework.ConstructBootstrapDriver },
+                };
+            }
+        }
+        #endregion
+
+
+
+        #region Report Logging
+        ////////////////////////////////////////////////////////////
+        // @brief xUnit output is injected automatically.  You can
+        // tie this is with jerkins using the available plugin:
+        // https://wiki.jenkins-ci.org/display/JENKINS/xUnit+Plugin
+        ////////////////////////////////////////////////////////////
+        protected readonly ITestOutputHelper m_output;
+
+        protected void IssueCommand(string comment, IssueCommandCommand command)
+        {
+            m_output.WriteLine(comment);
+            command();
+        }
+
+        protected object IssueCommand(string comment, Func<object> command)
+        {
+            m_output.WriteLine(comment);
+            return command();
+        }
+        #endregion
+
+
+        #region Constructor / Destructor
+        public ExampleUnitTests(ITestOutputHelper output)
             // Dependency injection from xUnit     ^^^^
         {
+            this.m_output = output;
+            TestFramework.g_driver = null;
         }
+        
+        public void Dispose()
+        {
+            TestFramework.ReleaseDriver();
+        }
+        #endregion
 
 
         #region Test Helpers 
@@ -58,16 +122,26 @@ namespace AppiumTests
         // driver.HCP().SomeHCPCall();
         // driver.HCP().SomeOtherHCPCall();
         ////////////////////////////////////////////////////////////
-        private AppiumWebElement FindImage(AppiumHCPDriver<AppiumWebElement> driver)
+        private AppiumWebElement FindSampleImage()
         {
-            WaitforHCP(driver);
-            return IssueCommand("Looking for Image", () => { return driver.HCP().FindElementByName("Image"); }) as AppiumWebElement;
+            WaitForHCP();
+            return IssueCommand("Looking for Image", () => { return TestFramework.FindHCPElement("Image"); }) as AppiumWebElement;
         }  
         
-        private AppiumWebElement FindButton(AppiumHCPDriver<AppiumWebElement> driver)
+        private AppiumWebElement FindSampleButton()
         {
-            WaitforHCP(driver);
-            return IssueCommand("Looking for Button", () => { return driver.HCP().FindElementByName("Button"); }) as AppiumWebElement;
+            WaitForHCP();
+            return IssueCommand("Looking for Button", () => { return TestFramework.FindHCPElement("Button"); }) as AppiumWebElement;
+        }
+
+        private void TakeScreenshot(string filename = null)
+        {
+            m_output.WriteLine(TestFramework.TakeScreenshot(filename));
+        }
+
+        private void WaitForHCP()
+        {
+            TestFramework.WaitForHCP();
         }
         #endregion
 
@@ -85,10 +159,10 @@ namespace AppiumTests
         public void CheckSwipeGesture(CreateDriver constructor)
         {           
             var driver = constructor();
-            IssueCommand("Waiting for HCP", () => { WaitforHCP(driver); });
+            IssueCommand("Waiting for HCP", () => { WaitForHCP(); });
             IssueCommand("Swiping screen", () => { driver.Swipe(500, 500, 1500, 1000, 5000); });
-            WriteScreenshot("CheckSwipeGestureColin"); // Explicit filename
-            WriteScreenshot(); // Implicit using stack
+            TakeScreenshot("CheckSwipeGestureColin"); // Explicit filename
+            TakeScreenshot(); // Implicit using stack
         }
 
         ////////////////////////////////////////////////////////////
@@ -99,7 +173,7 @@ namespace AppiumTests
         public void CheckPageSource(CreateDriver constructor)
         {
             var driver = constructor();
-            IssueCommand("Waiting for HCP", () => { WaitforHCP(driver); });
+            IssueCommand("Waiting for HCP", () => { WaitForHCP(); });
             var source = IssueCommand("Asking for page source", () => { return driver.PageSource; }) as String;
             var hcpSource = IssueCommand("Asking for hcp page source", () => { return driver.HCP().PageSource; }) as String;
 
@@ -125,17 +199,17 @@ namespace AppiumTests
         [Theory, MemberData("OnDevices")]
         public void CheckHCPEnvironment(CreateDriver constructor)
         {
-            var driver = constructor();
-            WaitforHCP(driver);
+            TestFramework.g_driver = constructor();
+            WaitForHCP();
         } 
         
         [Theory, MemberData("OnDevices")]
         public AppiumWebElement CheckFindButton(CreateDriver constructor)
         {
-            var driver = constructor();
-            WaitforHCP(driver);
+            TestFramework.g_driver = constructor();
+            WaitForHCP();
 
-            AppiumWebElement button = FindButton(driver);
+            AppiumWebElement button = FindSampleButton();
 
             Assert.False(button == null);
             return button;
@@ -144,10 +218,10 @@ namespace AppiumTests
         [Theory, MemberData("OnDevices")]
         public AppiumWebElement CheckFindImage(CreateDriver constructor)
         {
-            var driver = constructor();
-            WaitforHCP(driver);
+            TestFramework.g_driver = constructor();
+            WaitForHCP();
 
-            AppiumWebElement image = FindImage(driver);
+            AppiumWebElement image = FindSampleImage();
 
             Assert.False(image == null);
             return image;
@@ -161,16 +235,16 @@ namespace AppiumTests
         public void CheckClickButton(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
+            WaitForHCP();
 
-            WriteScreenshot();
-            AppiumWebElement button = FindButton(driver);
+            TakeScreenshot();
+            AppiumWebElement button = FindSampleButton();
             button.Click();
             
-            AppiumWebElement image = FindImage(driver);
+            AppiumWebElement image = FindSampleImage();
             var enabled = image.Enabled;
             
-            WriteScreenshot();
+            TakeScreenshot();
             Assert.True(enabled);
         }
 
@@ -179,11 +253,11 @@ namespace AppiumTests
         public void CheckHoldButton(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
-            AppiumWebElement button = FindButton(driver);
+            WaitForHCP();
+            AppiumWebElement button = FindSampleButton();
 
             Thread.Sleep(2000); // Wait for clear screen
-            WriteScreenshot();
+            TakeScreenshot();
 
             // In this version we send the raw driver our touch request.
             // If you compare screenshots, you will see that the touch is
@@ -209,7 +283,7 @@ namespace AppiumTests
                 .Release());
             */
 
-            WriteScreenshot();
+            TakeScreenshot();
         
         }
 
@@ -221,7 +295,7 @@ namespace AppiumTests
         {
             var keys = "ABCDEFHHIGJLMNOPQRSTUVWXYZ";
             var driver = constructor();
-            WaitforHCP(driver);
+            WaitForHCP();
             AppiumWebElement textField = driver.HCP().FindElementByName("TextField");
             driver.PerformTouchAction(
                 new TouchAction (driver)
@@ -243,10 +317,10 @@ namespace AppiumTests
         {
             var keys = "ABCDEFHHIGJLMNOPQRSTUVWXYZ";
             var driver = constructor();
-            WaitforHCP(driver);
+            WaitForHCP();
             AppiumWebElement textField = driver.HCP().FindElementByName("TextField");
             textField.SendKeys(keys);
-            WriteScreenshot();
+            TakeScreenshot();
 
             Assert.Equal(textField.Text, keys);
         }
@@ -255,7 +329,7 @@ namespace AppiumTests
         public void CheckFindButtons(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
+            WaitForHCP();
 
             var buttons = driver.HCP().FindElementsByClassName("UnityEngine.UI.Button");
 
@@ -276,7 +350,7 @@ namespace AppiumTests
         public void CheckFindImages(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
+            WaitForHCP();
 
             var images = driver.HCP().FindElementsByClassName("UnityEngine.UI.Image");
 
@@ -287,7 +361,7 @@ namespace AppiumTests
         public void CheckFindTags(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
+            WaitForHCP();
 
             var images = driver.HCP().FindElementsByTagName("SomeTag");
 
@@ -301,8 +375,8 @@ namespace AppiumTests
         public void CheckButtonLocation(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
-            AppiumWebElement button = FindButton(driver);
+            WaitForHCP();
+            AppiumWebElement button = FindSampleButton();
             var location = button.Location;
 
             Assert.True(location.IsEmpty == false);
@@ -315,8 +389,8 @@ namespace AppiumTests
         public void CheckButtonSize(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
-            AppiumWebElement button = FindButton(driver);
+            WaitForHCP();
+            AppiumWebElement button = FindSampleButton();
             var size = button.Size;
 
             Assert.True(size.IsEmpty == false);
@@ -326,11 +400,11 @@ namespace AppiumTests
         public void CheckButtonDisplayed(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
-            AppiumWebElement button = FindButton(driver);
+            WaitForHCP();
+            AppiumWebElement button = FindSampleButton();
             var displayed = button.Displayed;
             
-            WriteScreenshot();
+            TakeScreenshot();
             Assert.True(displayed);
         }
 
@@ -338,11 +412,11 @@ namespace AppiumTests
         public void CheckButtonEnabled(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
-            AppiumWebElement button = FindButton(driver);
+            WaitForHCP();
+            AppiumWebElement button = FindSampleButton();
             var enabled = button.Enabled;
             
-            WriteScreenshot();
+            TakeScreenshot();
             Assert.True(enabled);
         }
         
@@ -353,11 +427,11 @@ namespace AppiumTests
         public void CheckImageDisplayed(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
-            AppiumWebElement image = FindImage(driver);
+            WaitForHCP();
+            AppiumWebElement image = FindSampleImage();
             var displayed = image.Displayed;
             
-            WriteScreenshot();
+            TakeScreenshot();
             Assert.False(displayed);
         }
 
@@ -368,13 +442,14 @@ namespace AppiumTests
         public void CheckImageEnabled(CreateDriver constructor)
         {
             var driver = constructor();
-            WaitforHCP(driver);
-            AppiumWebElement image = FindImage(driver);
+            WaitForHCP();
+            AppiumWebElement image = FindSampleImage();
             var enabled = image.Enabled;
                         
-            WriteScreenshot();
+            TakeScreenshot();
             Assert.False(enabled);
         }
+
         #endregion
 
         #endregion

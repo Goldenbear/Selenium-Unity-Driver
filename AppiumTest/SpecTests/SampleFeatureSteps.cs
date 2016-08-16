@@ -1,45 +1,30 @@
 ﻿using System;
 using TechTalk.SpecFlow;
+using AppiumTest.Framework;
 
-namespace AppiumTest
+namespace AppiumTest.SpecTests
 {
     [Binding]
     public class SampleFeatureSteps
     {
-        [Given(@"I start the app with some (.*)")]
-        public void GivenIStartTheAppWithSome(string p0)
+        [Given(@"I start the app with driver type (.*)")]
+        public void GivenIStartTheAppWithDriverType(string p0)
         {
-            ScenarioContext.Current.Pending();
+            switch(p0)
+            {
+                case "SampleAndroid":
+                    TestFramework.ConstructAndroidDriver();
+                    break;
+                case "SampleIOS":
+                    TestFramework.ConstructIOSDriver();
+                    break;
+            }
         }
         
-        [Given(@"I have waiting for the app to have loaded")]
-        public void GivenIHaveWaitingForTheAppToHaveLoaded()
+        [Given(@"I have waited for the app to have loaded")]
+        public void GivenIHaveWaitedForTheAppToHaveLoaded()
         {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [Given(@"the element named (.*) is visible")]
-        public void GivenTheElementNamedIsVisible(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [When(@"I click the element named (.*)")]
-        public void WhenIClickTheElementNamed(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [Then(@"the element named (.*) is visible")]
-        public void ThenTheElementNamedIsVisible(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-        
-        [Then(@"I save a screenshot")]
-        public void ThenISaveAScreenshot()
-        {
-            ScenarioContext.Current.Pending();
+            TestFramework.WaitForHCP();
         }
     }
 }

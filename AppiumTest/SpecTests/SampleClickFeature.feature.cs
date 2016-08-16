@@ -22,7 +22,7 @@ namespace AppiumTest.SpecTests
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "SampleFeature.feature"
+#line 1 "SampleClickFeature.feature"
 #line hidden
         
         public SampleFeatureFeature(Xunit.Abstractions.ITestOutputHelper output)
@@ -73,26 +73,35 @@ namespace AppiumTest.SpecTests
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Press a button")]
+        [Xunit.TheoryAttribute()]
         [Xunit.TraitAttribute("FeatureTitle", "SampleFeature")]
         [Xunit.TraitAttribute("Description", "Press a button")]
-        [Xunit.TraitAttribute("Category", "mytag")]
-        public virtual void PressAButton()
+        [Xunit.TraitAttribute("Category", "onAndroid")]
+        [Xunit.TraitAttribute("Category", "onIOS")]
+        [Xunit.InlineDataAttribute("Android", "SampleAndroid", "Button", "Image", new string[0])]
+        [Xunit.InlineDataAttribute("iOS", "SampleIOS", "Button", "Image", new string[0])]
+        public virtual void PressAButton(string description, string capabilities, string button, string image, string[] exampleTags)
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Press a button", new string[] {
-                        "mytag"});
+            string[] @__tags = new string[] {
+                    "onAndroid",
+                    "onIOS"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Press a button", @__tags);
 #line 7
 this.ScenarioSetup(scenarioInfo);
 #line 8
-    testRunner.Given("I start the app with some <capabilities>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+    testRunner.Given(string.Format("I start the app with driver type {0}", capabilities), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.And("I have waiting for the app to have loaded", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I have waited for the app to have loaded", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
- testRunner.And("the element named <Button> is visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And(string.Format("the element named {0} is visible", button), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
- testRunner.When("I click the element named <Button>", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When(string.Format("I click the element named {0}", button), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
- testRunner.Then("the element named <Image> is visible", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(string.Format("the element named {0} is visible", image), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
     testRunner.And("I save a screenshot", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden

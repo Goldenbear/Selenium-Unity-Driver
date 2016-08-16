@@ -106,12 +106,12 @@ namespace AppiumTest.Framework
     public delegate AppiumHCPDriver<AppiumWebElement> CreateDriver();
     public delegate void IssueCommandCommand();
 
-    public abstract class TestSuite : IDisposable
+    public sealed class TestFramework
         // DevNote: There is a lot of details here, so I chose to group vars and 
         // methods by purpose so that you might better digest what is going on.
     {
         #region Communication Defaults
-        private static Uri APPIUM_SERVER_URI = new Uri(TestServers.Server2);
+        private static Uri APPIUM_SERVER_URI = new Uri(TestServers.Server1);
         private static int HCP_PORT = 14812;
         private static TimeSpan INIT_TIMEOUT_SEC = TimeSpan.FromSeconds(360); /* Change this to a more reasonable value */
         private static TimeSpan IMPLICIT_TIMEOUT_SEC = TimeSpan.FromSeconds(10); /* Change this to a more reasonable value */
@@ -124,13 +124,13 @@ namespace AppiumTest.Framework
         // state.  This is done in Dispose. You can only have one
         // of these for each appium server.
         ////////////////////////////////////////////////////////////
-        private static AppiumHCPDriver<AppiumWebElement> g_driver;
+        public static AppiumHCPDriver<AppiumWebElement> g_driver;
         #endregion
-
+        
 
         #region Screenshots
-        private static string IMAGE_DIRECTORY { get { return "screenshots"; } }
-        private static string IMAGE_HOST { get { return "http://127.0.0.1/images/"; } }
+        private static string IMAGE_DIRECTORY { get { return "screenshots"; } }                     // Filesystem
+        private static string IMAGE_HOST { get { return "bin/Debug/screenshots/screenshots"; } }    // URL
 
         private static string MakeValidFilename(string fileName)
         {
@@ -151,7 +151,7 @@ namespace AppiumTest.Framework
         // When used in conjunction with IssueCommand, you will get
         // a detailed log.
         ////////////////////////////////////////////////////////////
-        protected void WriteScreenshot(string fileName = null)
+        public static string TakeScreenshot(string fileName = null)
         {
             System.IO.Directory.CreateDirectory(IMAGE_DIRECTORY);
 
@@ -168,49 +168,28 @@ namespace AppiumTest.Framework
                 IMAGE_DIRECTORY,
                 fileName,
                 DateTime.Now);
-            var urlPath = String.Format("{0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg",
+
+            // Below is a sample "click to expand" html code block.  You could add code
+            // to scale to a max and preserve ration etc.
+            var urlPath = String.Format("<IMG HEIGHT=300 WIDTH=200 SRC={0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg></A>",
                 IMAGE_HOST,
                 fileName,
                 DateTime.Now);
 
             var screenshot = g_driver.GetScreenshot();
             screenshot.SaveAsFile(fullPath, System.Drawing.Imaging.ImageFormat.Jpeg);
-            m_output.WriteLine(urlPath);
+
+            return urlPath;
         }
         #endregion
 
-        #region Report Logging
-        ////////////////////////////////////////////////////////////
-        // @brief xUnit output is injected automatically.  You can
-        // tie this is with jerkins using the available plugin:
-        // https://wiki.jenkins-ci.org/display/JENKINS/xUnit+Plugin
-        ////////////////////////////////////////////////////////////
-        protected readonly ITestOutputHelper m_output;
-
-        protected void IssueCommand(string comment, IssueCommandCommand command)
-        {
-            m_output.WriteLine(comment);
-            command();
-        }
-
-        protected object IssueCommand(string comment, Func<object> command)
-        {
-            m_output.WriteLine(comment);
-            return command();
-        }
-
-        public TestSuite(ITestOutputHelper output)
-        {
-            this.m_output = output;
-            g_driver = null;
-        }
-        #endregion
+        
 
         #region Driver Construction - Used to initialize Appium
         ////////////////////////////////////////////////////////////
         // @brief Non-HCP sample to pull data and do sanity tests.
         ////////////////////////////////////////////////////////////
-        private static AppiumHCPDriver<AppiumWebElement> ConstructBootstrap()
+        public static AppiumHCPDriver<AppiumWebElement> ConstructBootstrapDriver()
         {
             if(g_driver == null)
             {
@@ -243,7 +222,7 @@ namespace AppiumTest.Framework
         ////////////////////////////////////////////////////////////
         // @brief Constructs an Android driver looking for minimal.apk
         ////////////////////////////////////////////////////////////
-        private static AppiumHCPDriver<AppiumWebElement> ConstructAndroid()
+        public static AppiumHCPDriver<AppiumWebElement> ConstructAndroidDriver()
         {
             if(g_driver == null)
             {
@@ -277,7 +256,7 @@ namespace AppiumTest.Framework
         // @brief Constructs an iOS driver looking for minimal.apk.
         // Only works on OSX
         ////////////////////////////////////////////////////////////
-        private static AppiumHCPDriver<AppiumWebElement> ConstructIOS()
+        public static AppiumHCPDriver<AppiumWebElement> ConstructIOSDriver()
         {
             if(g_driver == null)
             {
@@ -309,49 +288,13 @@ namespace AppiumTest.Framework
         #endregion
 
 
-        #region Test Parameters - Manual Driver Lists
-        ////////////////////////////////////////////////////////////
-        // @brief This is the format required to pass data in 
-        // property form to our unit tests.  Note that this does not
-        // return the driver itself because Visual Studio test panels
-        // create the drivers repeatedly and break the server
-        ////////////////////////////////////////////////////////////
-        public static IEnumerable<object[]> OnDevices
-        {
-            get
-            {
-                // Or this could read from a file. :)
-                return new[]
-                {
-                    //new CreateDriver[] { ConstructAndroid },
-                  new CreateDriver[] { ConstructIOS }
-                };
-            }
-        }
-
-        ////////////////////////////////////////////////////////////
-        // @brief A driver just for non-HCP Android tests.
-        ////////////////////////////////////////////////////////////
-        public static IEnumerable<object[]> WithBootstrap
-        {
-            get
-            {
-                // Or this could read from a file. :)
-                return new[]
-                {
-                    new CreateDriver[] { ConstructBootstrap },
-                };
-            }
-        }
-        #endregion
-
-
+        
         #region Cleanup
         ////////////////////////////////////////////////////////////
         // @brief This is necessary and will cause the Appium server
         // to enter an error state is missed.
         ////////////////////////////////////////////////////////////
-        public void Dispose()
+        public static void ReleaseDriver()
         {
             if(g_driver != null)
             {
@@ -361,7 +304,30 @@ namespace AppiumTest.Framework
         }
         #endregion
 
+       
+
         #region Test Helpers 
+        ////////////////////////////////////////////////////////////
+        // @brief Returns the first element found with the name  
+        // "Image".  Take special note of the HCP() call.  This call
+        // will set a bool that is referenced on the next command.  It
+        // is a bit hacky, but avoids MAJOR code duplication and 
+        // headache.  This does not work
+        // var hcp = driver.HCP();
+        // hcp.SomeHCPCall(); <- will work as expected
+        // hcp.SomeOtherHCPCall(); <- HCP state is already consumed,
+        //                            and will be a regular appium
+        //                            command.
+        // You should always inline the HCP call
+        // driver.HCP().SomeHCPCall();
+        // driver.HCP().SomeOtherHCPCall();
+        ////////////////////////////////////////////////////////////
+        public static AppiumWebElement FindHCPElement(string name)
+        {
+            TestFramework.WaitForHCP();
+            return g_driver.HCP().FindElementByName(name) as AppiumWebElement;
+        }  
+
         ////////////////////////////////////////////////////////////
         // @brief Illustrates how you can wait for something to be
         // complete piror to continuing in the test.  Here, we have
@@ -372,9 +338,9 @@ namespace AppiumTest.Framework
         // the thread of execution as you will continue as soon as its
         // ready, rather than waiting a fixed amount of time.
         ////////////////////////////////////////////////////////////
-        protected void WaitforHCP(AppiumHCPDriver<AppiumWebElement> driver)
+        public static void WaitForHCP()
         {
-            WebDriverWait wait = new WebDriverWait(driver, HCP_TIMEOUT_SEC);
+            WebDriverWait wait = new WebDriverWait(g_driver, HCP_TIMEOUT_SEC);
             bool result = wait.Until<bool>(ExpectedHCPConditions.HCPReady());
 
             Assert.Equal(result, true);

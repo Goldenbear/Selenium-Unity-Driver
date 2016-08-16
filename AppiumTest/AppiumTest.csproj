@@ -82,15 +82,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="helpers\Framework.cs" />
+    <Compile Include="SpecTests\MoreSampleFeatureSteps.cs" />
     <Compile Include="RawXunitTests\ExampleUnitTests.cs" />
     <Compile Include="helpers\AppiumServers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecTests\SampleFeatureSteps.cs" />
-    <Compile Include="SpecTests\SampleFeature.feature.cs">
+    <Compile Include="SpecTests\SampleClickFeature.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SampleFeature.feature</DependentUpon>
+      <DependentUpon>SampleClickFeature.feature</DependentUpon>
     </Compile>
+    <Compile Include="SpecTests\SampleFeatureSteps.cs" />
+    <Compile Include="SpecTests\SpecHoks.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -99,9 +101,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="SpecTests\SampleFeature.feature">
+    <None Include="SpecTests\SampleClickFeature.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SampleFeature.feature.cs</LastGenOutput>
+      <LastGenOutput>SampleClickFeature.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
