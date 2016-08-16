@@ -85,20 +85,11 @@
     <Compile Include="RawXunitTests\ExampleUnitTests.cs" />
     <Compile Include="helpers\AppiumServers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SpecTests\SpecFlowFeature1.feature.cs">
+    <Compile Include="SpecTests\SampleFeatureSteps.cs" />
+    <Compile Include="SpecTests\SampleFeature.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowFeature1.feature</DependentUpon>
-    </Compile>
-    <Compile Include="SpecTests\SpecFlowFeature2.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowFeature2.feature</DependentUpon>
-    </Compile>
-    <Compile Include="SpecTests\SpecFlowFeature3.feature.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>SpecFlowFeature3.feature</DependentUpon>
+      <DependentUpon>SampleFeature.feature</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -108,17 +99,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="SpecTests\SpecFlowFeature1.feature">
+    <None Include="SpecTests\SampleFeature.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowFeature1.feature.cs</LastGenOutput>
-    </None>
-    <None Include="SpecTests\SpecFlowFeature2.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowFeature2.feature.cs</LastGenOutput>
-    </None>
-    <None Include="SpecTests\SpecFlowFeature3.feature">
-      <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>SpecFlowFeature3.feature.cs</LastGenOutput>
+      <LastGenOutput>SampleFeature.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

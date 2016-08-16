@@ -1,4 +1,4 @@
-﻿Feature: SpecTest
+﻿Feature: SampleFeature
 	In order to show how spec flow works
 	As a simple example
 	I want to click a button on the screen
