@@ -29,14 +29,14 @@ namespace AppiumTests
     using System.Reflection;
     using System.Text.RegularExpressions;
 
-    public class PMSmokeTestSuite : TestSuite
+    public class ExampleUnitTests : TestSuite
     {
         // Unfortnately these need to be static
         public static new IEnumerable<object[]> OnDevices { get; } = TestSuite.OnDevices;
         public static new IEnumerable<object[]> WithBootstrap { get; } = TestSuite.WithBootstrap;
          
 
-        public PMSmokeTestSuite(ITestOutputHelper output) : base(output)
+        public ExampleUnitTests(ITestOutputHelper output) : base(output)
             // Dependency injection from xUnit     ^^^^
         {
         }

@@ -58,7 +58,7 @@ namespace AppiumTest.Framework
             this.AutomationName = String.Empty;
             this.SupportsHCP = false;
             this.HCPHost = "http:/127.0.0.1";
-            this.HCPPort = 14724;
+            this.HCPPort = 14812;
             this.DeviceId = String.Empty;
         }
 
