@@ -46,7 +46,7 @@ namespace AppiumTests
                 return new[]
                 {
                     new CreateDriver[] { TestFramework.ConstructAndroidDriver },
-                    new CreateDriver[] { TestFramework.ConstructIOSDriver }
+                    //new CreateDriver[] { TestFramework.ConstructIOSDriver }
                 };
             }
         }

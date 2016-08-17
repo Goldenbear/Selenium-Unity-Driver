@@ -33,7 +33,7 @@ namespace HCP.Requests
 				point = Camera.main.WorldToScreenPoint (point);
 			}
 
-			return new Vector3(point.x, Screen.height - point.y, point.z);
+			return new Vector3(point.x, Screen.height - point.y, point.z) / Server.DeviceScreenScalar;
         }
 
         public override JobResponse Process()

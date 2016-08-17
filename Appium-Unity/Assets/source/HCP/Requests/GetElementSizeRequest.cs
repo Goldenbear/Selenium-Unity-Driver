@@ -28,7 +28,7 @@ namespace HCP.Requests
 
 			float scale = (Camera.main.WorldToScreenPoint (Vector3.forward)-Camera.main.WorldToScreenPoint (Vector3.zero)).magnitude;
             
-			return bounds.extents*2*scale;
+			return bounds.extents*2*scale / Server.DeviceScreenScalar;
         }
 
         public override JobResponse Process()

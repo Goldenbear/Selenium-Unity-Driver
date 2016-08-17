@@ -47,6 +47,136 @@ namespace HCP
     
 	    /**************************** GLOBAL METHODS ****************************/
         
+                
+
+        /***************************** PUBLIC DATA ******************************/
+        public event ListenerStartedEventHandler Started;
+        public event LIstenerStoppedEventHandler Stopped;
+        
+        public HttpListener Listener { get { return m_listener; } }
+        public string ListenerURI { get { return m_sListenerURI; } }
+        public bool ActiveAndEnabled { get { return m_bActiveAndEnabled; } }
+
+        public bool AutoAddElementsOnStart = false;
+
+        //////////////////////////////////////////////////////////////////////////
+        /// @brief  The appium app expects iOS data to be scaled based on 
+        /// whether or not it is a retina screen.  This is really silly but
+        /// it is easier to deal with here than in their codebase.  So
+        /// position data could be scaled when on an iOS device.  If we didn't do
+        /// this then sending touch data to iOS would require two sets of coordinate
+        /// systems to be maintained: HCP-Mode and Apium-Mode.  We instead choose
+        /// to emulate Appium as much as possible
+        //////////////////////////////////////////////////////////////////////////
+        public static float DeviceScreenScalar
+        {
+            get
+            {
+                if(Application.platform == RuntimePlatform.IPhonePlayer)
+                {
+                    // This is taken from the AppiumInspectorScreenshotView.m file of Appium-Dot-App
+                    // check for retina devices
+			        if (Screen.width == 640 && Screen.height == 960)
+			        {
+				        // portrait 3.5" iphone with retina display
+				        return 2.0f;
+			        }
+			        else if (Screen.width == 960 && Screen.height == 640)
+			        {
+				        // landscape 3.5" iphone with retina display
+				        return 2.0f;
+			        }
+			        else if (Screen.width == 640 && Screen.height == 1136)
+			        {
+				        // portrait 4" iphone with retina display
+				        return 2.0f;
+			        }
+			        else if (Screen.width == 1136 && Screen.height == 640)
+			        {
+				        // landscape 4" iphone with retina display
+				        return 2.0f;
+			        }
+			        else if (Screen.width == 750 && Screen.height == 1334)
+			        {
+				        // portrait iphone 6
+				        return 2.0f;
+			        }
+			        else if (Screen.width == 1334 && Screen.height == 750)
+			        {
+				        // landscape iphone 6
+				        return 2.0f;
+			        }
+			        else if (Screen.width == 1242 && Screen.height == 2208)
+			        {
+				        // portrait iphone 6 plus
+				        return 3.0f;
+			        }
+			        else if (Screen.width == 2208 && Screen.height == 1242)
+			        {
+				        // landscape iphone 6 plus
+				        return 3.0f;
+			        }
+			        else if (Screen.width == 1536 && Screen.height == 2048)
+			        {
+				        // portrait ipad with retina display
+				        return 2.0f;
+			        }
+			        else if (Screen.width == 2048 && Screen.height == 1536)
+			        {
+				        // landscape ipad with retina display
+				        return 2.0f;
+			        }
+                }
+                return 1;
+            }
+        }
+
+
+	    /***************************** PRIVATE DATA *****************************/	
+        private HttpListener m_listener;
+        [SerializeField] private string m_sListenerURI;
+        private Thread m_listenerThread;
+        private bool m_bActiveAndEnabled;
+
+        protected Dictionary<string, Type> m_requestCommands;
+        protected Queue<Job> m_requestJobs;
+
+
+
+
+        /***************************** PROPERTIES *******************************/
+
+        /***************************** PUBLIC METHODS ***************************/
+        #region API
+
+        //////////////////////////////////////////////////////////////////////////
+	    /// @brief 	The interface to queue a job to run on the main thread
+	    //////////////////////////////////////////////////////////////////////////
+	    public Job QueueActionRequest(string task)
+        {
+            Job job = new Job();
+
+            var data = JSON.Parse(task);
+            string command = data["cmd"].Value;
+            if(command == "action")
+            {
+                string actionCommand = data["action"].Value;
+                JSONNode parameters = data["params"];
+
+                var actionType = m_requestCommands[actionCommand];
+                job.Request = (JobRequest)Activator.CreateInstance(actionType, parameters);
+            }
+            else
+            {
+                throw new ArgumentException("Cannot queue an action of unknown command type: " + command);
+            }
+
+            m_requestJobs.Enqueue(job);
+            return job;
+        }
+        #endregion
+
+        /**************************** PRIVATE METHODS ***************************/
 
         //////////////////////////////////////////////////////////////////////////
         /// @brief  Process the client connection.
@@ -145,63 +275,6 @@ namespace HCP
                 this.Listener.Stop();
             }
         }
-
-        /***************************** PUBLIC DATA ******************************/
-        public event ListenerStartedEventHandler Started;
-        public event LIstenerStoppedEventHandler Stopped;
-        
-        public HttpListener Listener { get { return m_listener; } }
-        public string ListenerURI { get { return m_sListenerURI; } }
-        public bool ActiveAndEnabled { get { return m_bActiveAndEnabled; } }
-
-        public bool AutoAddElementsOnStart = false;
-
-
-	    /***************************** PRIVATE DATA *****************************/	
-        private HttpListener m_listener;
-        [SerializeField] private string m_sListenerURI;
-        private Thread m_listenerThread;
-        private bool m_bActiveAndEnabled;
-
-        protected Dictionary<string, Type> m_requestCommands;
-        protected Queue<Job> m_requestJobs;
-
-
-
-
-        /***************************** PROPERTIES *******************************/
-
-        /***************************** PUBLIC METHODS ***************************/
-        #region API
-
-        //////////////////////////////////////////////////////////////////////////
-	    /// @brief 	The interface to queue a job to run on the main thread
-	    //////////////////////////////////////////////////////////////////////////
-	    public Job QueueActionRequest(string task)
-        {
-            Job job = new Job();
-
-            var data = JSON.Parse(task);
-            string command = data["cmd"].Value;
-            if(command == "action")
-            {
-                string actionCommand = data["action"].Value;
-                JSONNode parameters = data["params"];
-
-                var actionType = m_requestCommands[actionCommand];
-                job.Request = (JobRequest)Activator.CreateInstance(actionType, parameters);
-            }
-            else
-            {
-                throw new ArgumentException("Cannot queue an action of unknown command type: " + command);
-            }
-
-            m_requestJobs.Enqueue(job);
-            return job;
-        }
-        #endregion
-
-        /**************************** PRIVATE METHODS ***************************/
 
         #region Utility
         private void AddActionHandler(string requestCommand, Type requestType)

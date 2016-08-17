@@ -53,9 +53,6 @@ namespace HCP.Requests
             var dropdownComponent = element.GetComponent<UnityEngine.UI.Dropdown>();
             var inputComponent = element.GetComponent <UnityEngine.UI.InputField>();
 
-
-
-
             if (canvasComponent != null)
             {
                 return (canvasComponent.GetType().FullName);
