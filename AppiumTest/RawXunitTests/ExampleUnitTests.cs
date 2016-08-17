@@ -265,7 +265,7 @@ namespace AppiumTests
             // the y-coordinate
             driver.PerformTouchAction(
                 new TouchAction (driver)
-                .Press (button.Location.X, driver.Manage().Window.Size.Height - button.Location.Y)
+                .Press (button.Location.X, button.Location.Y)
                 .Wait(10000)
                 .Release());
             
@@ -299,13 +299,11 @@ namespace AppiumTests
             AppiumWebElement textField = driver.HCP().FindElementByName("TextField");
             driver.PerformTouchAction(
                 new TouchAction (driver)
-                .Press (textField.Location.X, driver.Manage().Window.Size.Height - textField.Location.Y)
+                .Press (textField.Location.X, textField.Location.Y)
                 .Wait(100)
                 .Release()
                 );
             driver.Keyboard.SendKeys(keys);
-            
-
             Assert.Equal(textField.Text, keys);
         }
         
