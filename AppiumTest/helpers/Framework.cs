@@ -4,6 +4,11 @@
 //  </copyright>
 //--------------------------------------------------------------------------
 
+
+using Xunit;
+[assembly: CollectionBehavior(MaxParallelThreads = 1)]   // IMPORTANT!!!
+    // The above turns off parallel execution
+
 namespace AppiumTest.Framework
 {
     using System;
@@ -21,6 +26,7 @@ namespace AppiumTest.Framework
     using AppiumTests;
     using OpenQA.Selenium.Appium.Android;
     using OpenQA.Selenium.Appium.iOS;
+
 
     public sealed class TestCapabilities
     {
@@ -130,7 +136,7 @@ namespace AppiumTest.Framework
 
         #region Screenshots
         private static string IMAGE_DIRECTORY { get { return "screenshots"; } }                     // Filesystem
-        private static string IMAGE_HOST { get { return "bin/Debug/screenshots/screenshots"; } }    // URL
+        private static string IMAGE_HOST { get { return "bin/Debug/screenshots"; } }    // URL
 
         private static string MakeValidFilename(string fileName)
         {
@@ -171,7 +177,7 @@ namespace AppiumTest.Framework
 
             // Below is a sample "click to expand" html code block.  You could add code
             // to scale to a max and preserve ration etc.
-            var urlPath = String.Format("<IMG HEIGHT=300 WIDTH=200 SRC={0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg></A>",
+            var urlPath = String.Format("\\<A HREF=\"{0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg\"\\>\\<IMG HEIGHT=300 WIDTH=200 SRC=\"{0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg\"\\>\\</A\\>",
                 IMAGE_HOST,
                 fileName,
                 DateTime.Now);

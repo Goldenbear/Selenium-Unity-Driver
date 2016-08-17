@@ -27,7 +27,7 @@ namespace AppiumTest.SpecTests
             // appium driver
         }
 
-        [BeforeScenario(Order = 100)]
+        [AfterScenario(Order = 100)]
         public static void ReleaseDriver()
         {
             TestFramework.ReleaseDriver();
