@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sudo npm install -g node-inspector
 which -s brew
 if [[ $? != 0 ]] ; then
     # Install Homebrew
@@ -14,7 +13,8 @@ source ~/.bash_profile
 rbenv install 2.3.1
 rbenv global 2.3.1
 ruby -v
-sudo brew install --HEAD ideviceinstaller
+brew install --HEAD ideviceinstaller
+sudo npm install -g node-inspector
 sudo gem install cocoapods
 pod setup
 cd Appium-Dot-App
