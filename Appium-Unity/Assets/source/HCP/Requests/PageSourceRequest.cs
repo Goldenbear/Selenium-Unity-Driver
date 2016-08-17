@@ -27,56 +27,52 @@ namespace HCP.Requests
             if(element != null)
             {
                 var childXmlElement = xmlDoc.CreateElement(element.name);
-                var textComponent = element.GetComponent<Text>();
-                var canvasComponent = element.GetComponent<Canvas>();
-                var buttonComponent = element.GetComponent<Button>();
-                var toggleComponent = element.GetComponent<Toggle>();
-                var dropdownComponent = element.GetComponent<Dropdown>();
+				var textComponent = element.GetComponent<UnityEngine.UI.Text>();
+				var canvasComponent = element.GetComponent<UnityEngine.Canvas>();
+				var buttonComponent = element.GetComponent<UnityEngine.UI.Button>();
+				var toggleComponent = element.GetComponent<UnityEngine.UI.Toggle>();
+				var dropdownComponent = element.GetComponent<UnityEngine.UI.Dropdown>();
 
-                if(canvasComponent != null)
-                {
-                    childXmlElement = xmlDoc.CreateElement(canvasComponent.GetType().FullName);
-                    childXmlElement.SetAttribute("class", canvasComponent.GetType().FullName);
-                }
-                else if(textComponent != null)
-                {
-                    childXmlElement = xmlDoc.CreateElement(textComponent.GetType().FullName);
-                    childXmlElement.SetAttribute("class", textComponent.GetType().FullName);
-                    childXmlElement.SetAttribute("text", textComponent.text);
-                }
-                else if(buttonComponent != null)
-                {
-                    childXmlElement = xmlDoc.CreateElement(buttonComponent.GetType().FullName);
-                    childXmlElement.SetAttribute("class", buttonComponent.GetType().FullName);
-                }
-                else if(toggleComponent != null)
-                {
-                    childXmlElement = xmlDoc.CreateElement(toggleComponent.GetType().FullName);
-                    childXmlElement.SetAttribute("class", toggleComponent.GetType().FullName);
-                    childXmlElement.SetAttribute("checked", toggleComponent.isOn ? "true" : "false");
-                }
-                else if(dropdownComponent != null)
-                {
-                    childXmlElement = xmlDoc.CreateElement(dropdownComponent.GetType().FullName);
-                    childXmlElement.SetAttribute("class", dropdownComponent.GetType().FullName);
-                }
+
+				childXmlElement = xmlDoc.CreateElement (GetElementAttributeRequest.GetClassName(element));
+
+				if (canvasComponent != null) 
+				{
+					childXmlElement.SetAttribute ("class", canvasComponent.GetType ().FullName);
+				} 
+				else if (textComponent != null) 
+				{
+					childXmlElement.SetAttribute ("class", textComponent.GetType ().FullName);
+					childXmlElement.SetAttribute ("text", textComponent.text);
+				} 
+				else if (buttonComponent != null) 
+				{
+					childXmlElement.SetAttribute ("class", buttonComponent.GetType ().FullName);
+				} 
+				else if (toggleComponent != null) 
+				{
+					childXmlElement.SetAttribute ("class", toggleComponent.GetType ().FullName);
+					childXmlElement.SetAttribute ("checked", toggleComponent.isOn ? "true" : "false");
+				} 
+				else if (dropdownComponent != null) 
+				{
+					childXmlElement.SetAttribute ("class", dropdownComponent.GetType ().FullName);
+				} 
+				else 
+				{
+					childXmlElement.SetAttribute ("class", element.GetType ().FullName);
+				}
                 childXmlElement.SetAttribute("package", "unity");
-                childXmlElement.SetAttribute("enabled", element.gameObject.activeSelf ? "true" : "false");
-                childXmlElement.SetAttribute("displayed", element.gameObject.activeInHierarchy ? "true" : "false");
+				childXmlElement.SetAttribute("enabled", element.gameObject.activeSelf ? "true" : "false");
+				childXmlElement.SetAttribute("displayed", element.gameObject.activeInHierarchy ? "true" : "false");
+				childXmlElement.SetAttribute("name", element.gameObject.name);
+
 
                 Vector3 point = GetElementLocationRequest.GetLocation(element);
-                Bounds bounds = GetElementSizeRequest.GetBounds(element);
+                Vector3 size = GetElementSizeRequest.GetSize(element);
                 
-                childXmlElement.SetAttribute("name", element.name);
-
-                var rectTransform = element.GetComponent<RectTransform>();
-                if(rectTransform != null)
-                {
-                    point.x -= bounds.extents.x*2 * rectTransform.pivot.x;
-                    point.y += bounds.extents.y*2 * rectTransform.pivot.y;
-                }
-
-                childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)point.x, Screen.height - (int)point.y, (int)bounds.extents.x*2, (int)bounds.extents.y*2));
+              
+				childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)point.x, (int)point.y, (int)size.x, (int)size.y));
 
 
                 childXmlElement.SetAttribute("resource-id", element.Id);
