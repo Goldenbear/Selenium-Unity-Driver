@@ -51,6 +51,8 @@ namespace HCP.Requests
 			var buttonComponent = element.GetComponent<UnityEngine.UI.Button>();
 			var toggleComponent = element.GetComponent<UnityEngine.UI.Toggle>();
 			var dropdownComponent = element.GetComponent<UnityEngine.UI.Dropdown>();
+			var inputComponent = element.GetComponent<UnityEngine.UI.InputField();
+
 
 
 
@@ -73,6 +75,10 @@ namespace HCP.Requests
 			else if (dropdownComponent != null) 
 			{
 				return (dropdownComponent.GetType ().FullName);
+			} 
+			else if (inputComponent != null) 
+			{
+				return (inputComponent.GetType ().FullName);
 			} 
 			else 
 			{

@@ -25,43 +25,27 @@ namespace HCP.Requests
             var xmlElement = parentXmlElement;
 
             if(element != null)
-            {
-                var childXmlElement = xmlDoc.CreateElement(element.name);
+			{
 				var textComponent = element.GetComponent<UnityEngine.UI.Text>();
-				var canvasComponent = element.GetComponent<UnityEngine.Canvas>();
-				var buttonComponent = element.GetComponent<UnityEngine.UI.Button>();
+				var inputComponent = element.GetComponent<UnityEngine.UI.InputField>();
 				var toggleComponent = element.GetComponent<UnityEngine.UI.Toggle>();
-				var dropdownComponent = element.GetComponent<UnityEngine.UI.Dropdown>();
 
 
-				childXmlElement = xmlDoc.CreateElement (GetElementAttributeRequest.GetClassName(element));
+				var childXmlElement = xmlDoc.CreateElement (GetElementAttributeRequest.GetClassName(element));
+				childXmlElement.SetAttribute ("class", GetElementAttributeRequest.GetClassName(element));
 
-				if (canvasComponent != null) 
+				if (textComponent != null) 
 				{
-					childXmlElement.SetAttribute ("class", canvasComponent.GetType ().FullName);
-				} 
-				else if (textComponent != null) 
-				{
-					childXmlElement.SetAttribute ("class", textComponent.GetType ().FullName);
 					childXmlElement.SetAttribute ("text", textComponent.text);
-				} 
-				else if (buttonComponent != null) 
+				}  
+				else if (inputComponent != null) 
 				{
-					childXmlElement.SetAttribute ("class", buttonComponent.GetType ().FullName);
-				} 
+					childXmlElement.SetAttribute ("text", inputComponent.text);
+				}   
 				else if (toggleComponent != null) 
 				{
-					childXmlElement.SetAttribute ("class", toggleComponent.GetType ().FullName);
 					childXmlElement.SetAttribute ("checked", toggleComponent.isOn ? "true" : "false");
 				} 
-				else if (dropdownComponent != null) 
-				{
-					childXmlElement.SetAttribute ("class", dropdownComponent.GetType ().FullName);
-				} 
-				else 
-				{
-					childXmlElement.SetAttribute ("class", element.GetType ().FullName);
-				}
                 childXmlElement.SetAttribute("package", "unity");
 				childXmlElement.SetAttribute("enabled", element.gameObject.activeSelf ? "true" : "false");
 				childXmlElement.SetAttribute("displayed", element.gameObject.activeInHierarchy ? "true" : "false");
