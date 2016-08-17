@@ -15,8 +15,4 @@ rbenv global 2.3.1
 ruby -v
 brew install --HEAD ideviceinstaller
 sudo npm install -g node-inspector
-sudo gem install cocoapods
-pod setup
-cd Appium-Dot-App
-pod install
 cd ../
