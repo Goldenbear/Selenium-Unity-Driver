@@ -11,7 +11,7 @@
 /************************ EXTERNAL NAMESPACES ***************************/
 
 using UnityEngine;																// Unity 			(ref http://docs.unity3d.com/Documentation/ScriptReference/index.html)
-
+using System;
 
 namespace HCP
 {
@@ -32,7 +32,7 @@ namespace HCP
         [Element]
         [SerializeField]
         protected string m_sUniqueGuid;
-        public string Id { get { return "HCP-" + (this.m_bUnsafe ? "UNSAFE-" : "" ) + this.name + "-" + m_sUniqueGuid; } }
+        public string Id { get { return "HCP-" + (this.m_bUnsafe ? "UNSAFE-" : "" ) + m_sUniqueGuid; } }
 
         [SerializeField]
         [HideInInspector]
@@ -44,7 +44,19 @@ namespace HCP
         // default values in the inspector.
         private void Reset()
         {
-            m_bUnsafe = false;        
+            m_bUnsafe = false;     
+            
+            SetUId();
+        }
+        
+        private void SetUId()
+        {
+            // Generate a unique ID, defaults to an empty string if nothing has been serialized yet
+            if (String.IsNullOrEmpty(m_sUniqueGuid))
+            {
+                Guid guid = Guid.NewGuid();
+                m_sUniqueGuid = guid.ToString();
+            }
         }
 
         private void Start()
@@ -53,6 +65,8 @@ namespace HCP
             {
                 throw new System.Exception("HCP.Element Error - You cannot attach more than one Element component to a single game object.");
             }
+            
+            SetUId();
         }
     }
 
