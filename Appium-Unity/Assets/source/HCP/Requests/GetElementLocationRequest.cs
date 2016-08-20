@@ -25,8 +25,8 @@ namespace HCP.Requests
 			var rectTransform = element.GetComponent<RectTransform>();
 			if (rectTransform != null) 
 			{
-				point.x -= size.x * rectTransform.pivot.x;
-				point.y += size.y * rectTransform.pivot.y;
+                point.x -= size.x * rectTransform.pivot.x * Server.DeviceScreenScalar;
+                point.y += size.y * rectTransform.pivot.y * Server.DeviceScreenScalar;
 			} 
 			else
 			{
