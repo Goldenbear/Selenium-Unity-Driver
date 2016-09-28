@@ -26,6 +26,7 @@ namespace HCP.Requests
 
             if(element != null)
 			{
+				var buttonComponent = element.GetComponent<UnityEngine.UI.Button>();
 				var textComponent = element.GetComponent<UnityEngine.UI.Text>();
 				var inputComponent = element.GetComponent<UnityEngine.UI.InputField>();
 				var toggleComponent = element.GetComponent<UnityEngine.UI.Toggle>();
@@ -34,17 +35,25 @@ namespace HCP.Requests
 				var childXmlElement = xmlDoc.CreateElement (GetElementAttributeRequest.GetClassName(element));
 				childXmlElement.SetAttribute ("class", GetElementAttributeRequest.GetClassName(element));
 
-				if (textComponent != null) 
+				if (buttonComponent != null)
+				{
+					childXmlElement.SetAttribute ("clickable", "true");
+				}
+				else if (textComponent != null) 
 				{
 					childXmlElement.SetAttribute ("text", textComponent.text);
+					childXmlElement.SetAttribute ("clickable", "true");
 				}  
 				else if (inputComponent != null) 
 				{
 					childXmlElement.SetAttribute ("text", inputComponent.text);
+					childXmlElement.SetAttribute ("clickable", "true");
 				}   
 				else if (toggleComponent != null) 
 				{
 					childXmlElement.SetAttribute ("checked", toggleComponent.isOn ? "true" : "false");
+					childXmlElement.SetAttribute ("clickable", "true");
+					childXmlElement.SetAttribute ("checkable", "true");
 				} 
                 childXmlElement.SetAttribute("package", "unity");
 				childXmlElement.SetAttribute("enabled", element.gameObject.activeSelf ? "true" : "false");
