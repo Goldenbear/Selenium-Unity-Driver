@@ -93,6 +93,7 @@
     </Compile>
     <Compile Include="SpecTests\SampleFeatureSteps.cs" />
     <Compile Include="SpecTests\SpecHoks.cs" />
+    <Compile Include="RawXunitTests\CodeMakerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
