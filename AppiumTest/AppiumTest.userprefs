@@ -1,8 +1,8 @@
-﻿<Properties StartupItem="AppiumTest.csproj">
+﻿<Properties StartupConfiguration="{7E86315F-5657-4CCC-AABA-FEDBAE72E76D}|Unit Tests">
   <MonoDevelop.Ide.Workbench ActiveDocument="RawXunitTests/CodeMakerTest.cs">
     <Files>
       <File FileName="RawXunitTests/ExampleUnitTests.cs" Line="144" Column="30" />
-      <File FileName="RawXunitTests/CodeMakerTest.cs" Line="36" Column="28" />
+      <File FileName="RawXunitTests/CodeMakerTest.cs" Line="8" Column="14" />
       <File FileName="helpers/Framework.cs" Line="165" Column="14" />
       <File FileName="helpers/AppiumServers.cs" Line="20" Column="88" />
       <File FileName="../Appium-DotNet-Driver/appium-dotnet-driver/Appium/AppiumDriver.cs" Line="1" Column="1" />

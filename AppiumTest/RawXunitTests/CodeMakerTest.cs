@@ -1,3 +1,7 @@
+// ST: Which unit test framework to use. Add relevant Packages to project to use.
+#define USE_NUNIT
+//#define USE_XUNIT
+
 //Generated Code
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
@@ -11,20 +15,28 @@ using OpenQA.Selenium.Appium.HCP;
 using OpenQA.Selenium.Appium; /* This is Appium */
 using System.Diagnostics;
 using System.Reflection;
-using Xunit.Abstractions;
 using System.Collections.Generic;
-using Xunit;
 using AppiumTests;
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.iOS;
+
+#if USE_NUNIT
+using NUnit.Framework;
+#elif USE_XUNIT
+using Xunit;
+#endif
 
 namespace AppiumTests 
 {
 	public class RecordedTest 
 	{
 		// ST: my unit test
+#if USE_NUNIT
+		[Test]
+#elif USE_XUNIT
 		[Fact]
-		static void SeanTest() 
+#endif
+		public static void SeanTest() 
 		{
 			//AppiumHCPDriver<AppiumWebElement> wd = StartAppiumHCPDriver_IOS();
 			AppiumHCPDriver<AppiumWebElement> wd = StartAppiumHCPDriver_Android();
@@ -90,7 +102,11 @@ namespace AppiumTests
 			WebDriverWait wait = new WebDriverWait(wd, TimeSpan.FromSeconds(10));
 			bool result = wait.Until<bool>(ExpectedHCPConditions.HCPReady());
 
+#if USE_NUNIT
+			Assert.IsTrue(result);
+#elif USE_XUNIT
 			Assert.Equal(result, true);
+#endif
 		}
 	}
 }
