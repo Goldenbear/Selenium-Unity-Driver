@@ -30,6 +30,9 @@ namespace AppiumTests
 {
 	public class RecordedTest 
 	{
+		// The currently running Appium web-driver
+		static AppiumHCPDriver<AppiumWebElement> wd = null;
+
 		// ST: my unit test
 #if USE_NUNIT
 		[Test]
@@ -38,19 +41,21 @@ namespace AppiumTests
 #endif
 		public static void SeanTest() 
 		{
-			//AppiumHCPDriver<AppiumWebElement> wd = StartAppiumHCPDriver_IOS();
-			AppiumHCPDriver<AppiumWebElement> wd = StartAppiumHCPDriver_Android();
+			//StartAppiumHCPDriver_IOS();
+			StartAppiumHCPDriver_Android();
 
 			// ST: replace contents of this try clause with output from Appium inspector
 			try 
 			{
 				wd.HCP().FindElement(By.Id("HCP-8af8f187-fc27-4437-9072-7162c00694bb")).Click();
+				wd.GetScreenshot();
 				wd.HCP().FindElement(By.Id("HCP-05f19f10-6ca3-4926-b8d5-636e5883f263")).Click();
+				wd.GetScreenshot();
 			} finally { wd.Quit(); }
 		}
 
 		// ST: start an iOS Appium HCP Driver with required device capabilities
-		public static AppiumHCPDriver<AppiumWebElement> StartAppiumHCPDriver_IOS()
+		public static void StartAppiumHCPDriver_IOS()
 		{
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			//capabilities.SetCapability("autoWebview", false);
@@ -66,16 +71,14 @@ namespace AppiumTests
 			//capabilities.SetCapability("app", "/Users/Sean/Dev/Selenium-Unity-Driver/Appium/minimal.ipa");
 			capabilities.SetCapability("app", "com.hutch.minimal");
 
-			//RemoteWebDriver wd = new RemoteWebDriver(new Uri("http://localhost:4723/wd/hub"), capabilities);
-			AppiumHCPDriver<AppiumWebElement> wd = new IOSDriver<AppiumWebElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(360));
+			//wd = new RemoteWebDriver(new Uri("http://localhost:4723/wd/hub"), capabilities);
+			wd = new IOSDriver<AppiumWebElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(360));
 			wd.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
 			WaitForHCP(wd);
-
-			return wd;
 		}
 
 		// ST: start an Android Appium HCP Driver with required device capabilities
-		public static AppiumHCPDriver<AppiumWebElement> StartAppiumHCPDriver_Android()
+		public static void StartAppiumHCPDriver_Android()
 		{
 			DesiredCapabilities capabilities = new DesiredCapabilities();
 			//capabilities.SetCapability("autoWebview", false);
@@ -89,12 +92,10 @@ namespace AppiumTests
 			capabilities.SetCapability("deviceName", "anything");		// Not used but set to something
 			capabilities.SetCapability("app", "/Users/Sean/Dev/Selenium-Unity-Driver/Appium/minimal.apk");
 
-			//RemoteWebDriver wd = new RemoteWebDriver(new Uri("http://localhost:4723/wd/hub"), capabilities);
-			AppiumHCPDriver<AppiumWebElement> wd = new AndroidDriver<AppiumWebElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(360));
+			//wd = new RemoteWebDriver(new Uri("http://localhost:4723/wd/hub"), capabilities);
+			wd = new AndroidDriver<AppiumWebElement>(new Uri("http://localhost:4723/wd/hub"), capabilities, TimeSpan.FromSeconds(360));
 			wd.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(10));
 			WaitForHCP(wd);
-
-			return wd;
 		}
 
 		public static void WaitForHCP(AppiumHCPDriver<AppiumWebElement> wd)
@@ -108,5 +109,60 @@ namespace AppiumTests
 			Assert.Equal(result, true);
 #endif
 		}
+
+		#region Screenshots
+		private static string IMAGE_DIRECTORY { get { return "screenshots"; } }                     // Filesystem
+		private static string IMAGE_HOST { get { return "bin/Debug/screenshots"; } }    // URL
+
+		private static string MakeValidFilename(string fileName)
+		{
+			// Nothing too complicated, removing bad characters.
+			foreach (char c in System.IO.Path.GetInvalidFileNameChars())
+			{
+				fileName = fileName.Replace(c, '_');
+			}
+
+			return fileName;
+		}
+
+		////////////////////////////////////////////////////////////
+		// @brief Creates a jpg and saves it to disk.  Will have a 
+		// useful filename is called directly from a unit test.
+		// Otherwise its function name guess in the stack will be off.
+		// Spits out a sample URL for web access to the screenshots
+		// When used in conjunction with IssueCommand, you will get
+		// a detailed log.
+		////////////////////////////////////////////////////////////
+		public static string TakeScreenshot(string fileName = null)
+		{
+			System.IO.Directory.CreateDirectory(IMAGE_DIRECTORY);
+
+			if (fileName == null)
+			{
+				StackTrace st = new StackTrace();
+				StackFrame sf = st.GetFrame(1);
+				MethodBase testMethodName = sf.GetMethod();
+				fileName = testMethodName.Name;
+			}
+
+			fileName = MakeValidFilename(fileName);
+			var fullPath = String.Format("{0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg",
+				IMAGE_DIRECTORY,
+				fileName,
+				DateTime.Now);
+
+			// Below is a sample "click to expand" html code block.  You could add code
+			// to scale to a max and preserve ration etc.
+			var urlPath = String.Format("\\<A HREF=\"{0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg\"\\>\\<IMG HEIGHT=300 WIDTH=200 SRC=\"{0}/{1} - {2:yyyy-MM-dd_hh-mm-ss-tt}.jpg\"\\>\\</A\\>",
+				IMAGE_HOST,
+				fileName,
+				DateTime.Now);
+
+			var screenshot = wd.GetScreenshot();
+			screenshot.SaveAsFile(fullPath, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+			return urlPath;
+		}
+		#endregion
 	}
 }
