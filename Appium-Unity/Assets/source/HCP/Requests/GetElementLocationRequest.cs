@@ -19,21 +19,8 @@ namespace HCP.Requests
 
         public static Vector3 GetLocation(Element element)
 		{
-			Vector3 point = element.transform.TransformPoint(Vector3.zero);
-			Vector3 size = GetElementSizeRequest.GetSize(element);
-
-			var rectTransform = element.GetComponent<RectTransform>();
-			if (rectTransform != null) 
-			{
-                point.x -= size.x * rectTransform.pivot.x * Server.DeviceScreenScalar;
-                point.y += size.y * rectTransform.pivot.y * Server.DeviceScreenScalar;
-			} 
-			else
-			{
-				point = Camera.main.WorldToScreenPoint (point);
-			}
-
-			return new Vector3(point.x, Screen.height - point.y, point.z) / Server.DeviceScreenScalar;
+			Rect screenRect = element.GetScreenRect();
+			return new Vector3(screenRect.min.x, screenRect.min.y, 0.0f);
         }
 
         public override JobResponse Process()

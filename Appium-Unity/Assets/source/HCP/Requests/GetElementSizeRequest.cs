@@ -19,18 +19,8 @@ namespace HCP.Requests
 
         public static Vector3 GetSize (Element element)
         {
-            var renderer = element.GetComponent<Renderer> ();
-            var rectTransform = element.GetComponent<RectTransform> ();
-
-            Bounds bounds = new Bounds ();
-            if (renderer != null)
-                bounds = renderer.bounds;
-            if (rectTransform != null)
-                bounds = new Bounds (Vector3.zero, rectTransform.sizeDelta);
-
-            float scale = (Camera.main.WorldToScreenPoint (Vector3.forward) - Camera.main.WorldToScreenPoint (Vector3.zero)).magnitude;
-            
-            return bounds.extents * 2 * scale / Server.DeviceScreenScalar;
+			Rect screenRect = element.GetScreenRect();
+			return new Vector3(screenRect.size.x, screenRect.size.y, 0.0f);
         }
 
         public override JobResponse Process ()
