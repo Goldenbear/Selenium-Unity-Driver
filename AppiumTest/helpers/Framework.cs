@@ -276,9 +276,9 @@ namespace AppiumTest.Framework
                 capabilties.DeviceName = "iOS";
                 capabilties.FwkVersion = "1.0"; // Not really needed
                 capabilties.Platform = TestCapabilities.DevicePlatform.IOS; // Or IOS
-                capabilties.PlatformVersion = "8.2"; // Must match device
+                capabilties.PlatformVersion = "9.3"; // Must match device
                 capabilties.SupportsHCP = true;
-                capabilties.HCPHost = "http://192.168.1.2";
+                capabilties.HCPHost = "http://192.168.0.5";
                 capabilties.HCPPort = HCP_PORT;
                 capabilties.DeviceId = "auto";//6b4f8fac9a129df15b5a69af471cdf93952dc34e"; 
                 capabilties.AssignAppiumCapabilities(ref capabilities);

@@ -19,44 +19,53 @@ namespace HCP.Requests
         {
         }
 
-        protected static void CompleteChild(GameObject gameObject, XmlDocument xmlDoc, XmlElement parentXmlElement, int index)
+        protected static void CompleteChild(GameObject gameObject, XmlDocument xmlDoc, XmlElement parentXmlElement, int index, Canvas canvas)
         {
             var element = gameObject.GetComponent<Element>();
             var xmlElement = parentXmlElement;
 
             if(element != null)
 			{
+				var canvasComponent = element.GetComponent<Canvas>();
+				var buttonComponent = element.GetComponent<UnityEngine.UI.Button>();
 				var textComponent = element.GetComponent<UnityEngine.UI.Text>();
 				var inputComponent = element.GetComponent<UnityEngine.UI.InputField>();
 				var toggleComponent = element.GetComponent<UnityEngine.UI.Toggle>();
+				//var imageComponent = element.GetComponent<UnityEngine.UI.Image>();
 
+				if(canvasComponent != null)
+					canvas = canvasComponent;
 
 				var childXmlElement = xmlDoc.CreateElement (GetElementAttributeRequest.GetClassName(element));
 				childXmlElement.SetAttribute ("class", GetElementAttributeRequest.GetClassName(element));
 
-				if (textComponent != null) 
+				if (buttonComponent != null)
+				{
+					childXmlElement.SetAttribute ("clickable", "true");
+				}
+				else if (textComponent != null) 
 				{
 					childXmlElement.SetAttribute ("text", textComponent.text);
+					//childXmlElement.SetAttribute ("clickable", "true");			// ST: Don't want to pick Text elements in Appium Inspector screenshot window
 				}  
 				else if (inputComponent != null) 
 				{
 					childXmlElement.SetAttribute ("text", inputComponent.text);
+					childXmlElement.SetAttribute ("clickable", "true");
 				}   
 				else if (toggleComponent != null) 
 				{
 					childXmlElement.SetAttribute ("checked", toggleComponent.isOn ? "true" : "false");
+					childXmlElement.SetAttribute ("clickable", "true");
+					childXmlElement.SetAttribute ("checkable", "true");
 				} 
                 childXmlElement.SetAttribute("package", "unity");
 				childXmlElement.SetAttribute("enabled", element.gameObject.activeSelf ? "true" : "false");
 				childXmlElement.SetAttribute("displayed", element.gameObject.activeInHierarchy ? "true" : "false");
 				childXmlElement.SetAttribute("name", element.gameObject.name);
 
-
-                Vector3 point = GetElementLocationRequest.GetLocation(element);
-                Vector3 size = GetElementSizeRequest.GetSize(element);
-                
-              
-				childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)point.x, (int)point.y, (int)size.x, (int)size.y));
+				Rect screenRect = element.GetScreenRect(canvas);
+				childXmlElement.SetAttribute("bounds", String.Format("[{0},{1}][{2},{3}]", (int)screenRect.min.x, (int)screenRect.min.y, (int)screenRect.size.x, (int)screenRect.size.y));
 
 
                 childXmlElement.SetAttribute("resource-id", element.Id);
@@ -70,22 +79,51 @@ namespace HCP.Requests
             for(int i = 0; i < gameObject.transform.childCount; i++)
             {
                 var child = gameObject.transform.GetChild(i);
-                CompleteChild(child.gameObject, xmlDoc, xmlElement, i);
+                CompleteChild(child.gameObject, xmlDoc, xmlElement, i, canvas);
             }
 
         }
 
         public override JobResponse Process()
         {
+			Debug.Log("HutchAppium: pagesource request received.");
+
+			// Create xml doc to hold page source of UI hierarchy
             XmlDocument xmlDoc = new XmlDocument( );
-            GameObject[] roots = UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects();
 
             XmlElement xmlElement = xmlDoc.CreateElement("hierarchy");
             xmlDoc.AppendChild(xmlElement);
 
-            for(int i = 0; i < roots.Length; i++)
+			// Get list of UI Canvases currently in the world
+			Canvas[] canvases = GameObject.FindObjectsOfType(typeof(Canvas)) as Canvas[];
+			Debug.Log("HutchAppium: pagesource found "+canvases.Length+" Canvases");
+
+			// Add root canvases with their hierarchy of child UI objects to the xml doc
+            for(int i = 0; i < canvases.Length; i++)
             {
-                CompleteChild(roots[i].gameObject, xmlDoc, xmlElement, i);
+				bool bIsRootCanvas = true;
+
+				// Determine whether this is a root canvas (ie. doesn't have any parent canvas)
+				GameObject go = canvases[i].gameObject;
+				while((go != null) && (go.transform != null) && (go.transform.parent != null) && (go.transform.parent.gameObject != null))
+				{
+					go = go.transform.parent.gameObject;
+					Canvas parentCanvas = go.GetComponent<Canvas>();
+					if(parentCanvas != null)
+					{
+						bIsRootCanvas = false;
+					}
+				}
+
+				if(bIsRootCanvas)
+				{
+					Debug.Log("HutchAppium: pagesource adding root Canvas "+canvases[i].name);
+                	CompleteChild(canvases[i].gameObject, xmlDoc, xmlElement, i, canvases[i]);
+				}
+				else
+				{
+					Debug.Log("HutchAppium: pagesource Canvas "+canvases[i].name+" is not a root Canvas.");
+				}
             }
             
             using (var stringWriter = new StringWriter())
@@ -93,7 +131,11 @@ namespace HCP.Requests
             {
                 xmlDoc.WriteTo(xmlTextWriter);
                 xmlTextWriter.Flush();
-                return new Responses.StringResponse(stringWriter.GetStringBuilder().ToString());
+
+				string pageSource = stringWriter.GetStringBuilder().ToString();
+				Debug.Log("HutchAppium: pagesource response: "+pageSource);
+
+                return new Responses.StringResponse(pageSource);
             }
         }
     }
