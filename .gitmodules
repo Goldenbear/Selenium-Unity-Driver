@@ -37,3 +37,6 @@
 [submodule "SpecFlow"]
 	path = SpecFlow
 	url = https://github.com/gopokyo-colinn/SpecFlow
+[submodule "Appium-UIAutomator2-Driver"]
+	path = Appium-UIAutomator2-Driver
+	url = https://github.com/gopokyo-colinn/appium-uiautomator2-driver
