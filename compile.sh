@@ -19,7 +19,7 @@ npm install teen_process
 cd ../Appium-HCP-Driver
 npm install gulp
 npm install appium-gulp-plugins
-cd ../Appium-UIAutomator2-Driver
+cd ../Appium-IOS-Driver
 npm install gulp
 npm install appium-gulp-plugins
 cd ../Selenium
