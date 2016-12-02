@@ -22,7 +22,10 @@ npm install appium-gulp-plugins
 cd ../Appium-IOS-Driver
 npm install gulp
 npm install appium-gulp-plugins
-cd ../Selenium
+cd ../Appium-UIAutomator2-Driver
+npm install gulp
+npm install appium-gulp-plugins
+cd ../Appium-XCUITest-Driver
 npm install gulp
 npm install appium-gulp-plugins
 cd ../Appium

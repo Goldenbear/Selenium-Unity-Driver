@@ -40,3 +40,6 @@
 [submodule "Appium-UIAutomator2-Driver"]
 	path = Appium-UIAutomator2-Driver
 	url = https://github.com/gopokyo-colinn/appium-uiautomator2-driver
+[submodule "Appium-XCUITest-Driver"]
+	path = Appium-XCUITest-Driver
+	url = https://github.com/gopokyo-colinn/appium-xcuitest-driver
