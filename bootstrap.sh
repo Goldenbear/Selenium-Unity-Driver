@@ -15,5 +15,7 @@ rbenv global 2.3.1
 ruby -v
 brew install --HEAD ideviceinstaller
 brew install carthage
+brew install libimobiledevice --HEAD
 sudo npm install -g node-inspector
+sudo npm install -g deviceconsole
 cd ../
