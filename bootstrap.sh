@@ -14,5 +14,6 @@ rbenv install 2.3.1
 rbenv global 2.3.1
 ruby -v
 brew install --HEAD ideviceinstaller
+brew install carthage
 sudo npm install -g node-inspector
 cd ../
