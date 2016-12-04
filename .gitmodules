@@ -43,3 +43,9 @@
 [submodule "Appium-XCUITest-Driver"]
 	path = Appium-XCUITest-Driver
 	url = https://github.com/gopokyo-colinn/appium-xcuitest-driver
+[submodule "Appium-UnityTest"]
+	path = Appium-UnityTest
+	url = https://github.com/gopokyo-colinn/appium-unity-test
+[submodule "Appium-Unity"]
+	path = Appium-Unity
+	url = https://github.com/gopokyo-colinn/appium-unity
