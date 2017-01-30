@@ -1,5 +1,17 @@
 #!/bin/bash
 
+#
+#Appium installation script
+#
+
+printf "\e[1;31m*** Installing Appium support components...\n\e[0;30m"
+
+#Install global components that require admin password first so this isnt requested half way through.
+sudo npm install -g node-inspector
+sudo npm install -g ios-deploy
+sudo npm install -g deviceconsole
+
+#Install brew if not already
 which -s brew
 if [[ $? != 0 ]] ; then
     # Install Homebrew
@@ -13,9 +25,20 @@ source ~/.bash_profile
 rbenv install 2.3.1
 rbenv global 2.3.1
 ruby -v
-brew install --HEAD ideviceinstaller
-brew install carthage
-brew install libimobiledevice --HEAD
-sudo npm install -g node-inspector
-sudo npm install -g deviceconsole
 cd ../
+
+#XCUITest support installation
+#sudo npm install -g ios-deploy
+#sudo npm install -g deviceconsole
+brew install ideviceinstaller
+brew install carthage
+npm install xcpretty
+brew install libimobiledevice --HEAD
+
+cd Appium/node_modules/appium-xcuitest-driver/WebDriverAgent
+mkdir -p Resources/WebDriverAgent.bundle
+sh ./Scripts/bootstrap.sh -d
+echo "DEVELOPMENT_TEAM = P237U2XMJR\nCODE_SIGN_IDENTITY = iPhone Developer" > WebDriver.xcconfig
+cd ../../../../
+
+printf "\e[1;31m*** Appium support installation complete. ***\n\e[0;30m"
