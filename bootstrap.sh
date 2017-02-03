@@ -8,8 +8,8 @@ printf "\e[1;31m*** Installing Appium support components...\n\e[0;30m"
 
 #Install global components that require admin password first so this isnt requested half way through.
 sudo npm install -g node-inspector
-sudo npm install -g ios-deploy
-sudo npm install -g deviceconsole
+sudo npm install -g ios-deploy --unsafe-perm=true --allow-root
+sudo npm install -g deviceconsole --unsafe-perm=true --allow-root
 
 #Install brew if not already
 which -s brew
@@ -28,11 +28,11 @@ ruby -v
 cd ../
 
 #XCUITest support installation
-#sudo npm install -g ios-deploy
-#sudo npm install -g deviceconsole
 brew install ideviceinstaller
 brew install carthage
 npm install xcpretty
+#Uncomment this if getting 'Unable to start WebDriverAgent:' errors:
+#brew unlink libimobiledevice
 brew install libimobiledevice --HEAD
 
 cd Appium/node_modules/appium-xcuitest-driver/WebDriverAgent
